@@ -10,6 +10,11 @@ window.addEventListener("keydown", (event) => {
       break;
     case "w":
       keys.w.pressed = true;
+      if (player.jumpcount < 2) {
+        player.jumpcount++;
+      } else {
+        keys.w.pressed = false;
+      }
       break;
     case "ArrowLeft":
       keys.ArrowLeft.pressed = true;
@@ -21,6 +26,11 @@ window.addEventListener("keydown", (event) => {
       break;
     case "ArrowUp":
       keys.ArrowUp.pressed = true;
+      if (enemy.jumpcount < 2) {
+        enemy.jumpcount++;
+      } else {
+        keys.ArrowUp.pressed = false;
+      }
       break;
   }
 });

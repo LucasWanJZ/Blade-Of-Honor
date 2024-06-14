@@ -25,6 +25,7 @@ const enemy = new Sprite({
 });
 
 function animate() {
+  console.log(player.jumpcount, enemy.jumpcount);
   window.requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
   player.update();
@@ -38,8 +39,12 @@ function animate() {
     player.velocity.x = 1;
   }
 
-  if (keys.w.pressed && player.position.y + player.height === canvas.height) {
-    player.velocity.y -= 30;
+  if (keys.w.pressed && player.jumpcount < 2) {
+    if (player.touchGround) {
+      player.velocity.y -= 30;
+    } else {
+      player.velocity.y = -20;
+    }
   }
 
   // enemy movement
@@ -50,11 +55,12 @@ function animate() {
     enemy.velocity.x = 1;
   }
 
-  if (
-    keys.ArrowUp.pressed &&
-    enemy.position.y + enemy.height === canvas.height
-  ) {
-    enemy.velocity.y -= 30;
+  if (keys.ArrowUp.pressed && enemy.jumpcount < 2) {
+    if (enemy.touchGround) {
+      enemy.velocity.y -= 30;
+    } else {
+      enemy.velocity.y = -20;
+    }
   }
 }
 

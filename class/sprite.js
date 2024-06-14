@@ -5,7 +5,8 @@ class Sprite {
     this.height = 150;
     this.width = 50;
     this.speed = 5;
-    this.lastkey;
+    this.jumpcount = 0;
+    this.touchGround = false;
   }
 
   draw() {
@@ -16,6 +17,7 @@ class Sprite {
   update() {
     const movement = this.velocity.x * this.speed;
     this.draw();
+
     if (this.position.x + this.width + movement >= canvas.width) {
       this.velocity.x = 0;
     } else if (this.position.x + movement < 0) {
@@ -26,9 +28,12 @@ class Sprite {
 
     if (this.position.y + this.height + this.velocity.y >= canvas.height) {
       this.velocity.y = 0;
+      this.touchGround = true;
+      this.jumpcount = 0;
     } else {
       this.velocity.y += gravity;
       this.position.y += this.velocity.y;
+      this.touchGround = false;
     }
   }
 }

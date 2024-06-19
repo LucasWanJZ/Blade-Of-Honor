@@ -17,15 +17,16 @@ const keys = {
 const player = new Sprite({
   position: { x: 200, y: 200 },
   velocity: { x: 0, y: 0 },
+  color: "red",
 });
 
 const enemy = new Sprite({
   position: { x: 400, y: 400 },
   velocity: { x: 0, y: 0 },
+  color: "green",
 });
 
 function animate() {
-  console.log(player.jumpcount, enemy.jumpcount);
   window.requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
   player.update();
@@ -61,6 +62,18 @@ function animate() {
     } else {
       enemy.velocity.y = -20;
     }
+  }
+
+  // collision detection
+  if (
+    player.attackBox.position.x + player.attackBox.width >= enemy.position.x &&
+    player.attackBox.position.x <= enemy.position.x + enemy.width &&
+    player.attackBox.position.y + player.attackBox.height >= enemy.position.y &&
+    player.attackBox.position.y <= enemy.position.y + enemy.height &&
+    player.isAttacking
+  ) {
+    player.isAttacking = false;
+    console.log("hit");
   }
 }
 

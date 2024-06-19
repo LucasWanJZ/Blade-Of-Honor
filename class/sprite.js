@@ -1,5 +1,5 @@
 class Sprite {
-  constructor({ position, velocity }) {
+  constructor({ position, velocity, color }) {
     this.position = position;
     this.velocity = velocity;
     this.height = 150;
@@ -7,11 +7,29 @@ class Sprite {
     this.speed = 5;
     this.jumpcount = 0;
     this.touchGround = false;
+    this.attackBox = {
+      position: this.position,
+      width: 100,
+      height: 50,
+    };
+    this.color = color;
+    this.isAttacking = false;
   }
 
   draw() {
-    c.fillStyle = "red";
+    c.fillStyle = this.color;
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+    // attack box
+    if (this.isAttacking) {
+      c.fillStyle = "blue";
+      c.fillRect(
+        this.attackBox.position.x,
+        this.attackBox.position.y,
+        this.attackBox.width,
+        this.attackBox.height
+      );
+    }
   }
 
   update() {
@@ -35,5 +53,12 @@ class Sprite {
       this.position.y += this.velocity.y;
       this.touchGround = false;
     }
+  }
+
+  attack() {
+    this.isAttacking = true;
+    setTimeout(() => {
+      this.isAttacking = false;
+    }, 150);
   }
 }

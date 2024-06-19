@@ -16,6 +16,9 @@ window.addEventListener("keydown", (event) => {
         keys.w.pressed = false;
       }
       break;
+    case " ":
+      player.attack();
+      break;
     case "ArrowLeft":
       keys.ArrowLeft.pressed = true;
       enemy.lastkey = "ArrowLeft";
@@ -31,6 +34,9 @@ window.addEventListener("keydown", (event) => {
       } else {
         keys.ArrowUp.pressed = false;
       }
+      break;
+    case "ArrowDown":
+      enemy.attack();
       break;
   }
 });

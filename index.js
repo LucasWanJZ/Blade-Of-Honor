@@ -85,19 +85,19 @@ function animate() {
   } else {
     if (player.direction === direction.RIGHT) {
       if (player.position.x < enemy.position.x) {
-        player.position.x -= 3;
-        enemy.position.x += 3;
+        player.position.x -= 1;
+        enemy.position.x += 1;
       } else {
-        player.position.x += 3;
-        enemy.position.x -= 3;
+        player.position.x += 1;
+        enemy.position.x -= 1;
       }
     } else if (player.direction === direction.LEFT) {
       if (player.position.x > enemy.position.x) {
-        player.position.x += 3;
-        enemy.position.x -= 3;
+        player.position.x += 1;
+        enemy.position.x -= 1;
       } else {
-        player.position.x -= 3;
-        enemy.position.x += 3;
+        player.position.x -= 1;
+        enemy.position.x += 1;
       }
     } else if (player.velocity.y > 0) {
       player.position.y -= 3;

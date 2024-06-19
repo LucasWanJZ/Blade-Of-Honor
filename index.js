@@ -2,8 +2,8 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 const gravity = 2;
-canvas.width = 1024;
-canvas.height = 576;
+canvas.width = 1024 * 2;
+canvas.height = 576 * 2;
 
 const keys = {
   a: { pressed: false },
@@ -14,16 +14,61 @@ const keys = {
   ArrowUp: { pressed: false },
 };
 
+const direction = {
+  LEFT: "left",
+  RIGHT: "right",
+};
+
+function spriteCollision({ sprite1, sprite2 }) {
+  return (
+    sprite1.attackBox.position.x + sprite1.attackBox.width >=
+      sprite2.position.x &&
+    sprite1.attackBox.position.x <= sprite2.position.x + sprite2.width &&
+    sprite1.attackBox.position.y + sprite1.attackBox.height >=
+      sprite2.position.y &&
+    sprite1.attackBox.position.y <= sprite2.position.y + sprite2.height &&
+    sprite1.isAttacking
+  );
+}
+
+function handleAttack(player, enemy) {
+  const playerHitsEnemy = spriteCollision({ sprite1: player, sprite2: enemy });
+  const enemyHitsPlayer = spriteCollision({ sprite1: enemy, sprite2: player });
+
+  if (playerHitsEnemy) {
+    if (player.direction === direction.RIGHT) {
+      enemy.position.x += 20;
+    }
+    if (player.direction === direction.LEFT) {
+      enemy.position.x -= 20;
+    }
+    player.isAttacking = false;
+    console.log("player hit");
+  }
+  if (enemyHitsPlayer) {
+    if (enemy.direction === direction.RIGHT) {
+      player.position.x += 20;
+    }
+    if (enemy.direction === direction.LEFT) {
+      player.position.x -= 20;
+    }
+    enemy.isAttacking = false;
+    console.log("enemy hit");
+  }
+}
+
 const player = new Sprite({
   position: { x: 200, y: 200 },
   velocity: { x: 0, y: 0 },
   color: "red",
+  direction: direction.RIGHT,
 });
 
 const enemy = new Sprite({
   position: { x: 400, y: 400 },
   velocity: { x: 0, y: 0 },
   color: "green",
+  direction: direction.LEFT,
 });
 
 function animate() {
@@ -65,16 +110,7 @@ function animate() {
   }
 
   // collision detection
-  if (
-    player.attackBox.position.x + player.attackBox.width >= enemy.position.x &&
-    player.attackBox.position.x <= enemy.position.x + enemy.width &&
-    player.attackBox.position.y + player.attackBox.height >= enemy.position.y &&
-    player.attackBox.position.y <= enemy.position.y + enemy.height &&
-    player.isAttacking
-  ) {
-    player.isAttacking = false;
-    console.log("hit");
-  }
+  handleAttack(player, enemy);
 }
 
 animate();

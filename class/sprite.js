@@ -1,19 +1,23 @@
 class Sprite {
-  constructor({ position, velocity, color }) {
+  constructor({ position, velocity, color, direction }) {
     this.position = position;
     this.velocity = velocity;
     this.height = 150;
     this.width = 50;
-    this.speed = 5;
+    this.speed = 10;
     this.jumpcount = 0;
     this.touchGround = false;
     this.attackBox = {
-      position: this.position,
+      position: {
+        x: this.position.x,
+        y: this.position.y,
+      },
       width: 100,
       height: 50,
     };
     this.color = color;
     this.isAttacking = false;
+    this.direction = direction;
   }
 
   draw() {
@@ -52,6 +56,14 @@ class Sprite {
       this.velocity.y += gravity;
       this.position.y += this.velocity.y;
       this.touchGround = false;
+    }
+
+    if (this.direction === direction.RIGHT) {
+      this.attackBox.position.x = this.position.x + this.width;
+      this.attackBox.position.y = this.position.y;
+    } else {
+      this.attackBox.position.x = this.position.x - this.attackBox.width;
+      this.attackBox.position.y = this.position.y;
     }
   }
 

@@ -3,10 +3,12 @@ window.addEventListener("keydown", (event) => {
     case "d":
       keys.d.pressed = true;
       player.lastkey = "d";
+      player.direction = direction.RIGHT;
       break;
     case "a":
       keys.a.pressed = true;
       player.lastkey = "a";
+      player.direction = direction.LEFT;
       break;
     case "w":
       keys.w.pressed = true;
@@ -22,10 +24,12 @@ window.addEventListener("keydown", (event) => {
     case "ArrowLeft":
       keys.ArrowLeft.pressed = true;
       enemy.lastkey = "ArrowLeft";
+      enemy.direction = direction.LEFT;
       break;
     case "ArrowRight":
       keys.ArrowRight.pressed = true;
       enemy.lastkey = "ArrowRight";
+      enemy.direction = direction.RIGHT;
       break;
     case "ArrowUp":
       keys.ArrowUp.pressed = true;

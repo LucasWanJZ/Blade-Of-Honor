@@ -61,15 +61,26 @@ function handleAttack(player, enemy) {
   }
 }
 
+// background
+const background = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  imageSrc: "./assets/background.png",
+  height: canvas.height,
+  width: canvas.width,
+});
+
 // players
-const player = new Sprite({
+const player = new Fighter({
   position: { x: canvas.width / 2 - 200, y: 100 },
   velocity: { x: 0, y: 0 },
   color: "red",
   direction: direction.RIGHT,
 });
 
-const enemy = new Sprite({
+const enemy = new Fighter({
   position: { x: canvas.width / 2 + 200, y: 100 },
   velocity: { x: 0, y: 0 },
   color: "green",
@@ -89,12 +100,23 @@ function decreaseTimer() {
   }
 }
 
+// music
+document.addEventListener("DOMContentLoaded", function () {
+  var music = document.getElementById("bgm");
+  document.body.addEventListener("click", function () {
+    if (music.paused) {
+      music.play();
+    }
+  });
+});
+
 // loop
 function animate() {
   window.requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
+  background.update();
   player.update();
   enemy.update();
 

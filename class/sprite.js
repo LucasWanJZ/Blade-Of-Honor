@@ -1,6 +1,7 @@
 class Sprite {
   constructor({ position, velocity, color, direction }) {
     this.position = position;
+    this.health = 100;
     this.velocity = velocity;
     this.height = 150;
     this.width = 50;

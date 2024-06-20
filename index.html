@@ -1,5 +1,31 @@
-<canvas></canvas>
-<script src="class/sprite.js"></script>
-<script src="utility/collisionhandler.js"></script>
-<script src="index.js"></script>
-<script src="utility/eventlistener.js"></script>
+<head>
+  <title>JS Fighting Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!--big container-->
+  <div class="main_container">
+    <div class="ui_container">
+      <!--player health-->
+      <div class="health_bar_container player_hp_container">
+        <div class="hp_bar"></div>
+        <div id="playerHealth" class="player_hp_bar"></div>
+      </div>
+      <!--timer-->
+      <div class="timer" id="timer">10</div>
+      <!--enemy health-->
+      <div class="health_bar_container">
+        <div class="hp_bar"></div>
+        <div id="enemyHealth" class="enemy_hp_bar"></div>
+      </div>
+    </div>
+    <!--Game End UI-->
+    <div id="game_end_ui" class="game_end_ui">TIE</div>
+    <canvas></canvas>
+  </div>
+
+  <script src="class/sprite.js"></script>
+  <script src="utility/collisionhandler.js"></script>
+  <script src="index.js"></script>
+  <script src="utility/eventlistener.js"></script>
+</body>

@@ -1,8 +1,8 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 const gravity = 2;
-canvas.width = 1024 * 2;
-canvas.height = 576 * 2;
+canvas.width = 1024;
+canvas.height = 576;
 
 const keys = {
   a: { pressed: false },
@@ -18,6 +18,18 @@ const direction = {
   RIGHT: "right",
 };
 
+function checkHealthBar(timerId) {
+  clearTimeout(timerId);
+  if (player.health == enemy.health) {
+    document.querySelector("#game_end_ui").innerHTML = "It's a draw!";
+  } else if (player.health > enemy.health) {
+    document.querySelector("#game_end_ui").innerHTML = "Player 1 Wins!";
+  } else {
+    document.querySelector("#game_end_ui").innerHTML = "Player 2 Wins!";
+  }
+  document.querySelector("#game_end_ui").style.display = "flex";
+}
+
 // attack handler
 function handleAttack(player, enemy) {
   const playerHitsEnemy = attackCollision({ sprite1: player, sprite2: enemy });
@@ -31,6 +43,8 @@ function handleAttack(player, enemy) {
       enemy.position.x -= 20;
     }
     player.isAttacking = false;
+    enemy.health -= 20;
+    document.querySelector("#enemyHealth").style.width = enemy.health + "%";
     console.log("player hit");
   }
   if (enemyHitsPlayer) {
@@ -41,28 +55,46 @@ function handleAttack(player, enemy) {
       player.position.x -= 20;
     }
     enemy.isAttacking = false;
+    player.health -= 20;
+    document.querySelector("#playerHealth").style.width = player.health + "%";
     console.log("enemy hit");
   }
 }
 
 // players
 const player = new Sprite({
-  position: { x: 200, y: 200 },
+  position: { x: canvas.width / 2 - 200, y: 100 },
   velocity: { x: 0, y: 0 },
   color: "red",
   direction: direction.RIGHT,
 });
 
 const enemy = new Sprite({
-  position: { x: 400, y: 400 },
+  position: { x: canvas.width / 2 + 200, y: 100 },
   velocity: { x: 0, y: 0 },
   color: "green",
   direction: direction.LEFT,
 });
 
+// timer
+let timer = 60;
+let timerId;
+function decreaseTimer() {
+  if (timer > 0) {
+    timerId = setTimeout(decreaseTimer, 1000);
+    timer--;
+    document.querySelector("#timer").innerText = timer;
+  } else {
+    checkHealthBar(timerId);
+  }
+}
+
+// loop
 function animate() {
   window.requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
+  c.fillStyle = "black";
+  c.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
   enemy.update();
 
@@ -126,6 +158,12 @@ function animate() {
 
   // collision detection
   handleAttack(player, enemy);
+
+  // check health bar
+  if (player.health <= 0 || enemy.health <= 0) {
+    checkHealthBar(timerId);
+  }
 }
 
+decreaseTimer();
 animate();

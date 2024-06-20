@@ -1,0 +1,78 @@
+* {
+  box-sizing: border-box;
+}
+
+/* main container for the page */
+.main_container {
+  position: relative;
+  display: inline-block;
+}
+
+/* container for ui */
+.ui_container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+/* hp bar */
+.health_bar_container {
+  position: relative;
+  height: 30px;
+  width: 100%;
+}
+
+.hp_bar {
+  width: 100%;
+  background-color: yellow;
+  height: 30px;
+}
+
+.player_hp_bar {
+  position: absolute;
+  background-color: blue;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.player_hp_container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.enemy_hp_bar {
+  position: absolute;
+  background-color: blue;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* timer */
+.timer {
+  background-color: red;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* game end ui */
+.game_end_ui {
+  position: absolute;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+}

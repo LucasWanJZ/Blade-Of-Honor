@@ -6,7 +6,7 @@ function attackCollision({ sprite1, sprite2 }) {
     sprite1.attackBox.position.y + sprite1.attackBox.height >=
       sprite2.position.y &&
     sprite1.attackBox.position.y <= sprite2.position.y + sprite2.height &&
-    sprite1.isAttacking
+    sprite1.isAttacking1
   );
 }
 

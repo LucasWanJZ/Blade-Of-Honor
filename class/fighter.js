@@ -1,8 +1,8 @@
 class Fighter {
-  constructor({ position, velocity, color, direction }) {
+  constructor({ position, direction, color }) {
     this.position = position;
     this.health = 100;
-    this.velocity = velocity;
+    this.velocity = { x: 0, y: 0 };
     this.height = 150;
     this.width = 50;
     this.speed = 10;
@@ -14,19 +14,26 @@ class Fighter {
         y: this.position.y,
       },
       width: 100,
-      height: 50,
+      height: 100,
     };
     this.color = color;
-    this.isAttacking = false;
+    this.isAttacking1 = false;
+    this.recovering = false;
+    this.isStaggered = false;
     this.direction = direction;
   }
 
   draw() {
     c.fillStyle = this.color;
+    if (this.isStaggered) {
+      c.fillStyle = "black";
+    } else if (this.recovering) {
+      c.fillStyle = "white";
+    }
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
-    // attack box
-    if (this.isAttacking) {
+    // attack box one
+    if (this.isAttacking1) {
       c.fillStyle = "blue";
       c.fillRect(
         this.attackBox.position.x,
@@ -68,10 +75,27 @@ class Fighter {
     }
   }
 
-  attack() {
-    this.isAttacking = true;
+  attack1() {
+    if (this.recovering) {
+      return;
+    }
+    this.isAttacking1 = true;
     setTimeout(() => {
-      this.isAttacking = false;
-    }, 150);
+      this.isAttacking1 = false;
+      this.isAttacking2 = false;
+      this.isAttacking3 = false;
+    }, 100);
+
+    this.recovering = true;
+    setTimeout(() => {
+      this.recovering = false;
+    }, 750);
+  }
+
+  staggered() {
+    this.isStaggered = true;
+    setTimeout(() => {
+      this.isStaggered = false;
+    }, 750);
   }
 }

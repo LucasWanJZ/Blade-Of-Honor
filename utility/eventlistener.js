@@ -1,5 +1,6 @@
 window.addEventListener("keydown", (event) => {
   switch (event.key) {
+    // player1 keys
     case "d":
       keys.d.pressed = true;
       player.lastkey = "d";
@@ -21,9 +22,10 @@ window.addEventListener("keydown", (event) => {
         keys.w.pressed = false;
       }
       break;
-    case " ":
-      player.attack();
+    case "r":
+      player.attack1();
       break;
+    // player 2 keys
     case "ArrowLeft":
       keys.ArrowLeft.pressed = true;
       enemy.lastkey = "ArrowLeft";
@@ -46,7 +48,7 @@ window.addEventListener("keydown", (event) => {
       }
       break;
     case "ArrowDown":
-      enemy.attack();
+      enemy.attack1();
       break;
   }
 });

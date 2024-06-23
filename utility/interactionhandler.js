@@ -53,8 +53,10 @@ function updateFighterMovement(fighter1, fighter2) {
   if (!fighter1.isStaggered && !fighter1.recovering) {
     if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
       if (keys.a.pressed && fighter1.lastkey === "a") {
+        fighter1.image = fighter1.sprites.run.image;
         fighter1.velocity.x = -1;
       } else if (keys.d.pressed && player.lastkey === "d") {
+        fighter1.image = fighter1.sprites.run.image;
         fighter1.velocity.x = 1;
       }
 
@@ -96,8 +98,10 @@ function updateFighterMovement(fighter1, fighter2) {
   if (!fighter2.isStaggered && !fighter2.recovering) {
     if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
       if (keys.ArrowLeft.pressed && fighter2.lastkey === "ArrowLeft") {
+        fighter2.image = fighter2.sprites.run.image;
         fighter2.velocity.x = -1;
       } else if (keys.ArrowRight.pressed && fighter2.lastkey === "ArrowRight") {
+        fighter2.image = fighter2.sprites.run.image;
         fighter2.velocity.x = 1;
       }
 

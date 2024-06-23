@@ -1,6 +1,20 @@
-class Fighter {
-  constructor({ position, direction, color }) {
-    this.position = position;
+class Fighter extends Sprite {
+  constructor({
+    position,
+    direction,
+    imageSrc,
+    frames = 1,
+    scale = 1,
+    offset = { x: 0, y: 0 },
+    sprites,
+  }) {
+    super({
+      position,
+      imageSrc,
+      scale,
+      frames,
+      offset,
+    });
     this.health = 100;
     this.velocity = { x: 0, y: 0 };
     this.height = 150;
@@ -16,37 +30,25 @@ class Fighter {
       width: 100,
       height: 100,
     };
-    this.color = color;
     this.isAttacking1 = false;
     this.recovering = false;
     this.isStaggered = false;
     this.direction = direction;
-  }
+    this.currentFrame = 0;
+    this.elapsedFrame = 0;
+    this.framesHold = 5;
+    this.sprites = sprites;
 
-  draw() {
-    c.fillStyle = this.color;
-    if (this.isStaggered) {
-      c.fillStyle = "black";
-    } else if (this.recovering) {
-      c.fillStyle = "white";
-    }
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-    // attack box one
-    if (this.isAttacking1) {
-      c.fillStyle = "blue";
-      c.fillRect(
-        this.attackBox.position.x,
-        this.attackBox.position.y,
-        this.attackBox.width,
-        this.attackBox.height
-      );
+    for (const sprite in this.sprites) {
+      sprites[sprite].image = new Image();
+      sprites[sprite].image.src = sprites[sprite].src;
     }
   }
 
   update() {
     const movement = this.velocity.x * this.speed;
     this.draw();
+    this.animateFrame();
 
     if (this.position.x + this.width + movement >= canvas.width) {
       this.velocity.x = 0;
@@ -82,8 +84,6 @@ class Fighter {
     this.isAttacking1 = true;
     setTimeout(() => {
       this.isAttacking1 = false;
-      this.isAttacking2 = false;
-      this.isAttacking3 = false;
     }, 100);
 
     this.recovering = true;

@@ -42,17 +42,56 @@ const lamp = new Sprite({
 });
 
 // players
-
 const player = new Fighter({
   position: { x: middle - 200, y: center - 100 },
-  color: "green",
+  imageSrc: "./assets/fighters/Samurai Fighter/Idle.png",
   direction: direction.RIGHT,
+  frames: 8,
+  scale: 2.5,
+  offset: {
+    x: 215,
+    y: 155,
+  },
+  sprites: {
+    idle: {
+      src: "./assets/fighters/Samurai Fighter/Idle.png",
+      frames: 8,
+    },
+    run: {
+      src: "./assets/fighters/Samurai Fighter/Run.png",
+      frames: 8,
+    },
+    // attack1: {
+    //   src: "./assets/fighters/Samurai Fighter/Attack1.png",
+    //   frames: 6,
+    // },
+  },
 });
 
 const enemy = new Fighter({
   position: { x: middle + 200, y: center - 100 },
-  color: "purple",
+  imageSrc: "./assets/fighters/Ninja Fighter/Idle.png",
   direction: direction.LEFT,
+  frames: 4,
+  scale: 2.25,
+  offset: {
+    x: 215,
+    y: 140,
+  },
+  sprites: {
+    idle: {
+      src: "./assets/fighters/Ninja Fighter/Idle.png",
+      frames: 4,
+    },
+    run: {
+      src: "./assets/fighters/Ninja Fighter/Run.png",
+      frames: 8,
+    },
+    // attack1: {
+    //   src: "./assets/fighters/Ninja Fighter/Attack1.png",
+    //   frames: 4,
+    // },
+  },
 });
 
 // timer

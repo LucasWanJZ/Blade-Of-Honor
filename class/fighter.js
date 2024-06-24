@@ -7,6 +7,12 @@ class Fighter extends Sprite {
     scale = 1,
     offset = { x: 0, y: 0 },
     sprites,
+    attackBox = {
+      width: undefined,
+      height: undefined,
+    },
+    attackFrame,
+    attackFramesHold = 5,
   }) {
     super({
       position,
@@ -27,17 +33,19 @@ class Fighter extends Sprite {
         x: this.position.x,
         y: this.position.y,
       },
-      width: 100,
-      height: 100,
+      width: attackBox.width,
+      height: attackBox.height,
     };
     this.isAttacking1 = false;
     this.recovering = false;
     this.isStaggered = false;
     this.direction = direction;
     this.currentFrame = 0;
-    this.elapsedFrame = 0;
     this.framesHold = 5;
     this.sprites = sprites;
+    this.attackFrame = attackFrame;
+    this.attackFramesHold = attackFramesHold;
+    this.death = false;
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -45,11 +53,36 @@ class Fighter extends Sprite {
     }
   }
 
+  animateFrame() {
+    if (this.image === this.sprites.death.image) {
+      if (this.currentFrame === this.sprites.death.frames - 1) {
+        this.death = true;
+        return;
+      }
+    }
+
+    if (this.image === this.sprites.attack1.image) {
+      this.framesHold = this.attackFramesHold;
+    } else {
+      this.framesHold = 5;
+    }
+
+    this.elapsedFrame++;
+
+    if (this.elapsedFrame % this.framesHold === 0) {
+      if (this.currentFrame < this.frames - 1) {
+        this.currentFrame++;
+      } else {
+        this.currentFrame = 0;
+      }
+    }
+  }
+
   update() {
-    const movement = this.velocity.x * this.speed;
     this.draw();
     this.animateFrame();
 
+    const movement = this.velocity.x * this.speed;
     if (this.position.x + this.width + movement >= canvas.width) {
       this.velocity.x = 0;
     } else if (this.position.x + movement < 0) {
@@ -60,6 +93,7 @@ class Fighter extends Sprite {
 
     if (this.position.y + this.height + this.velocity.y >= canvas.height - 96) {
       this.velocity.y = 0;
+      this.position.y = 330;
       this.touchGround = true;
       this.jumpcount = 0;
     } else {
@@ -68,12 +102,69 @@ class Fighter extends Sprite {
       this.touchGround = false;
     }
 
+    this.attackBox.position.y = this.position.y + 50;
     if (this.direction === direction.RIGHT) {
       this.attackBox.position.x = this.position.x + this.width;
-      this.attackBox.position.y = this.position.y;
     } else {
       this.attackBox.position.x = this.position.x - this.attackBox.width;
-      this.attackBox.position.y = this.position.y;
+    }
+  }
+
+  switchSprite(sprite) {
+    if (
+      this.image === this.sprites.hit.image &&
+      this.currentFrame < this.sprites.hit.frames - 1
+    ) {
+      return;
+    }
+    switch (sprite) {
+      case "idle":
+        if (this.image != this.sprites.idle.image) {
+          this.image = this.sprites.idle.image;
+          this.frames = this.sprites.idle.frames;
+          this.currentFrame = 0;
+        }
+        break;
+      case "run":
+        if (this.image != this.sprites.run.image) {
+          this.image = this.sprites.run.image;
+          this.frames = this.sprites.run.frames;
+          this.currentFrame = 0;
+        }
+        break;
+      case "jump":
+        if (this.image != this.sprites.jump.image) {
+          this.image = this.sprites.jump.image;
+          this.frames = this.sprites.jump.frames;
+          this.currentFrame = 0;
+        }
+        break;
+      case "fall":
+        if (this.image != this.sprites.fall.image) {
+          this.image = this.sprites.fall.image;
+          this.frames = this.sprites.fall.frames;
+          this.currentFrame = 0;
+        }
+        break;
+      case "attack1":
+        if (this.image != this.sprites.attack1.image) {
+          this.image = this.sprites.attack1.image;
+          this.frames = this.sprites.attack1.frames;
+          this.currentFrame = 0;
+        }
+        break;
+      case "hit":
+        if (this.image != this.sprites.hit.image) {
+          this.image = this.sprites.hit.image;
+          this.frames = this.sprites.hit.frames;
+          this.currentFrame = 0;
+        }
+        break;
+      case "death":
+        this.image = this.sprites.death.image;
+        this.frames = this.sprites.death.frames;
+        this.currentFrame = 0;
+        break;
     }
   }
 
@@ -81,21 +172,29 @@ class Fighter extends Sprite {
     if (this.recovering) {
       return;
     }
+    this.switchSprite("attack1");
     this.isAttacking1 = true;
     setTimeout(() => {
       this.isAttacking1 = false;
-    }, 100);
+    }, 300);
 
     this.recovering = true;
     setTimeout(() => {
       this.recovering = false;
-    }, 750);
+    }, 400);
   }
 
   staggered() {
+    this.health -= 20;
     this.isStaggered = true;
-    setTimeout(() => {
-      this.isStaggered = false;
-    }, 750);
+
+    if (this.health <= 0) {
+      this.switchSprite("death");
+    } else {
+      this.switchSprite("hit");
+      setTimeout(() => {
+        this.isStaggered = false;
+      }, 200);
+    }
   }
 }

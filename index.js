@@ -61,11 +61,32 @@ const player = new Fighter({
       src: "./assets/fighters/Samurai Fighter/Run.png",
       frames: 8,
     },
-    // attack1: {
-    //   src: "./assets/fighters/Samurai Fighter/Attack1.png",
-    //   frames: 6,
-    // },
+    attack1: {
+      src: "./assets/fighters/Samurai Fighter/Attack1.png",
+      frames: 6,
+    },
+    jump: {
+      src: "./assets/fighters/Samurai Fighter/Jump.png",
+      frames: 2,
+    },
+    fall: {
+      src: "./assets/fighters/Samurai Fighter/Fall.png",
+      frames: 2,
+    },
+    hit: {
+      src: "./assets/fighters/Samurai Fighter/Take Hit.png",
+      frames: 4,
+    },
+    death: {
+      src: "./assets/fighters/Samurai Fighter/Death.png",
+      frames: 6,
+    },
   },
+  attackBox: {
+    width: 150,
+    height: 50,
+  },
+  attackFrame: 3,
 });
 
 const enemy = new Fighter({
@@ -87,11 +108,33 @@ const enemy = new Fighter({
       src: "./assets/fighters/Ninja Fighter/Run.png",
       frames: 8,
     },
-    // attack1: {
-    //   src: "./assets/fighters/Ninja Fighter/Attack1.png",
-    //   frames: 4,
-    // },
+    attack1: {
+      src: "./assets/fighters/Ninja Fighter/Attack1.png",
+      frames: 4,
+    },
+    jump: {
+      src: "./assets/fighters/Ninja Fighter/Jump.png",
+      frames: 2,
+    },
+    fall: {
+      src: "./assets/fighters/Ninja Fighter/Fall.png",
+      frames: 2,
+    },
+    hit: {
+      src: "./assets/fighters/Ninja Fighter/Take hit.png",
+      frames: 3,
+    },
+    death: {
+      src: "./assets/fighters/Ninja Fighter/Death.png",
+      frames: 7,
+    },
   },
+  attackBox: {
+    width: 150,
+    height: 50,
+  },
+  attackFrame: 2,
+  attackFramesHold: 7,
 });
 
 // timer
@@ -115,6 +158,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+//update game
+function updateGame() {
+  // player movement
+  updateFighterMovement(player, enemy);
+
+  // collision detection
+  handleAttack(player, enemy);
+
+  // check health bar
+  if (player.health <= 0 || enemy.health <= 0) {
+    checkHealthBar(timerId);
+  }
+}
+
 // loop
 function animate() {
   window.requestAnimationFrame(animate);
@@ -125,15 +182,8 @@ function animate() {
   player.update();
   enemy.update();
 
-  // player movement
-  updateFighterMovement(player, enemy);
-
-  // collision detection
-  handleAttack(player, enemy);
-
-  // check health bar
-  if (player.health <= 0 || enemy.health <= 0) {
-    checkHealthBar(timerId);
+  if (!player.death && !enemy.death) {
+    updateGame();
   }
 }
 

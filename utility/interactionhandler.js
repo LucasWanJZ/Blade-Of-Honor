@@ -19,30 +19,27 @@ function handleAttack(player, enemy) {
   if (playerHitsEnemy) {
     enemy.staggered();
     if (player.direction === direction.RIGHT) {
-      enemy.position.x += 20;
+      if (enemy.position.x < canvas.width - enemy.width) enemy.position.x += 20;
     }
     if (player.direction === direction.LEFT) {
-      enemy.position.x -= 20;
+      if (enemy.position.x > 0) enemy.position.x -= 20;
     }
 
     player.isAttacking1 = false;
-    enemy.health -= 20;
     document.querySelector("#enemyHealth").style.width = enemy.health + "%";
-    console.log("player hit");
   }
   if (enemyHitsPlayer) {
     player.staggered();
     if (enemy.direction === direction.RIGHT) {
-      player.position.x += 20;
+      if (player.position.x < canvas.width - player.width)
+        player.position.x += 20;
     }
     if (enemy.direction === direction.LEFT) {
-      player.position.x -= 20;
+      if (player.position.x > 0) player.position.x -= 20;
     }
 
     enemy.isAttacking1 = false;
-    player.health -= 20;
     document.querySelector("#playerHealth").style.width = player.health + "%";
-    console.log("enemy hit");
   }
 }
 
@@ -53,14 +50,21 @@ function updateFighterMovement(fighter1, fighter2) {
   if (!fighter1.isStaggered && !fighter1.recovering) {
     if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
       if (keys.a.pressed && fighter1.lastkey === "a") {
-        fighter1.image = fighter1.sprites.run.image;
+        fighter1.switchSprite("run");
         fighter1.velocity.x = -1;
       } else if (keys.d.pressed && player.lastkey === "d") {
-        fighter1.image = fighter1.sprites.run.image;
+        fighter1.switchSprite("run");
         fighter1.velocity.x = 1;
+      } else {
+        fighter1.switchSprite("idle");
+      }
+
+      if (fighter1.velocity.y > 0) {
+        fighter1.switchSprite("fall");
       }
 
       if (keys.w.pressed && player.jumpcount < 2) {
+        fighter1.switchSprite("jump");
         if (fighter1.touchGround) {
           fighter1.velocity.y -= 30;
         } else {
@@ -98,14 +102,21 @@ function updateFighterMovement(fighter1, fighter2) {
   if (!fighter2.isStaggered && !fighter2.recovering) {
     if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
       if (keys.ArrowLeft.pressed && fighter2.lastkey === "ArrowLeft") {
-        fighter2.image = fighter2.sprites.run.image;
+        fighter2.switchSprite("run");
         fighter2.velocity.x = -1;
       } else if (keys.ArrowRight.pressed && fighter2.lastkey === "ArrowRight") {
-        fighter2.image = fighter2.sprites.run.image;
+        fighter2.switchSprite("run");
         fighter2.velocity.x = 1;
+      } else {
+        fighter2.switchSprite("idle");
+      }
+
+      if (fighter2.velocity.y > 0) {
+        fighter2.switchSprite("fall");
       }
 
       if (keys.ArrowUp.pressed && enemy.jumpcount < 2) {
+        fighter2.switchSprite("jump");
         if (fighter2.touchGround) {
           fighter2.velocity.y -= 30;
         } else {

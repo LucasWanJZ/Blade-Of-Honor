@@ -10,6 +10,8 @@ class Sprite {
     this.image = new Image();
     this.image.src = imageSrc;
     this.scale = scale;
+
+    // animation
     this.frames = frames;
     this.currentFrame = 0;
     this.elapsedFrame = 0;

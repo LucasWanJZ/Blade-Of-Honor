@@ -20,19 +20,20 @@
 /* hp bar */
 .health_bar_container {
   position: relative;
-  height: 30px;
   width: 100%;
+  border-top: 4px solid white;
+  border-bottom: 4px solid white;
 }
 
 .hp_bar {
   width: 100%;
-  background-color: yellow;
+  background-color: red;
   height: 30px;
 }
 
 .player_hp_bar {
   position: absolute;
-  background-color: blue;
+  background-color: #818cf8;
   top: 0;
   right: 0;
   bottom: 0;
@@ -42,26 +43,34 @@
 .player_hp_container {
   display: flex;
   justify-content: flex-end;
+  border-left: 4px solid white;
 }
 
 .enemy_hp_bar {
   position: absolute;
-  background-color: blue;
+  background-color: #818cf8;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
 }
 
+.enemy_hp_container {
+  border-right: 4px solid white;
+}
+
 /* timer */
 .timer {
-  background-color: red;
+  background-color: #85214f;
+  border: 4px solid white;
   width: 100px;
-  height: 100px;
+  height: 50px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
+  font-family: "Press Start 2P", cursive;
 }
 
 /* game end ui */
@@ -75,4 +84,5 @@
   right: 0;
   bottom: 0;
   display: none;
+  font-family: "Press Start 2P", cursive;
 }

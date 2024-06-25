@@ -1,6 +1,12 @@
 <head>
   <title>JS Fighting Game</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
   <!--big container-->
@@ -12,9 +18,9 @@
         <div id="playerHealth" class="player_hp_bar"></div>
       </div>
       <!--timer-->
-      <div class="timer" id="timer">10</div>
+      <div class="timer" id="timer">30</div>
       <!--enemy health-->
-      <div class="health_bar_container">
+      <div class="health_bar_container enemy_hp_container">
         <div class="hp_bar"></div>
         <div id="enemyHealth" class="enemy_hp_bar"></div>
       </div>
@@ -25,13 +31,34 @@
 
     <!--background music-->
     <audio id="bgm" autoplay loop>
-      <source src="assets/audio/Space Traveller.mp3" type="audio/mp3">
+      <source src="assets/audio/Space Traveller.mp3" type="audio/mp3" />
+    </audio>
+
+    <!--sound effects-->
+    <audio
+      id="attack_sound"
+      src="assets/audio/attack.mp3"
+      type="audio/mp3"
+    ></audio>
+    <audio id="jump_sound" src="assets/audio/jump.mp3" type="audio/mp3"></audio>
+    <audio id="run_sound" src="assets/audio/run.mp3" type="audio/mp3"></audio>
+    <audio
+      id="start_sound"
+      src="assets/audio/game-start.mp3"
+      type="audio/mp3"
+    ></audio>
   </div>
 
   <!--script-->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
   <script src="class/sprite.js"></script>
   <script src="class/fighter.js"></script>
-  <script src="utility/definition.js"></script>
+  <script src="utility/constant.js"></script>
   <script src="utility/interactionhandler.js"></script>
   <script src="utility/collisionhandler.js"></script>
   <script src="index.js"></script>

@@ -26,7 +26,7 @@ function handleAttack(player, enemy) {
     }
 
     player.isAttacking1 = false;
-    document.querySelector("#enemyHealth").style.width = enemy.health + "%";
+    gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
   }
   if (enemyHitsPlayer) {
     player.staggered();
@@ -39,7 +39,7 @@ function handleAttack(player, enemy) {
     }
 
     enemy.isAttacking1 = false;
-    document.querySelector("#playerHealth").style.width = player.health + "%";
+    gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
   }
 }
 

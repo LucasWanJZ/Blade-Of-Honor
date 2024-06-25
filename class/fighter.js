@@ -3,7 +3,6 @@ class Fighter extends Sprite {
     position,
     direction,
     imageSrc,
-    frames = 1,
     scale = 1,
     offset = { x: 0, y: 0 },
     sprites,
@@ -12,7 +11,7 @@ class Fighter extends Sprite {
       height: undefined,
     },
     attackFrame,
-    attackFramesHold = 5,
+    framesHold = 5,
   }) {
     super({
       position,
@@ -21,13 +20,15 @@ class Fighter extends Sprite {
       frames,
       offset,
     });
+
+    // fighter properties
     this.health = 100;
     this.velocity = { x: 0, y: 0 };
     this.height = 150;
-    this.width = 50;
-    this.speed = 10;
+    this.width = 60;
+    this.speed = 8;
+    this.direction = direction;
     this.jumpcount = 0;
-    this.touchGround = false;
     this.attackBox = {
       position: {
         x: this.position.x,
@@ -36,16 +37,18 @@ class Fighter extends Sprite {
       width: attackBox.width,
       height: attackBox.height,
     };
+
+    // fighter states
     this.isAttacking1 = false;
     this.recovering = false;
     this.isStaggered = false;
-    this.direction = direction;
+    this.death = false;
+
+    // fighter animations
     this.currentFrame = 0;
-    this.framesHold = 5;
+    this.framesHold = framesHold;
     this.sprites = sprites;
     this.attackFrame = attackFrame;
-    this.attackFramesHold = attackFramesHold;
-    this.death = false;
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -59,12 +62,6 @@ class Fighter extends Sprite {
         this.death = true;
         return;
       }
-    }
-
-    if (this.image === this.sprites.attack1.image) {
-      this.framesHold = this.attackFramesHold;
-    } else {
-      this.framesHold = 5;
     }
 
     this.elapsedFrame++;
@@ -82,6 +79,7 @@ class Fighter extends Sprite {
     this.draw();
     this.animateFrame();
 
+    // movemnt x axis
     const movement = this.velocity.x * this.speed;
     if (this.position.x + this.width + movement >= canvas.width) {
       this.velocity.x = 0;
@@ -91,17 +89,17 @@ class Fighter extends Sprite {
       this.position.x += movement;
     }
 
+    // movement y axis
     if (this.position.y + this.height + this.velocity.y >= canvas.height - 96) {
       this.velocity.y = 0;
       this.position.y = 330;
-      this.touchGround = true;
       this.jumpcount = 0;
     } else {
       this.velocity.y += gravity;
       this.position.y += this.velocity.y;
-      this.touchGround = false;
     }
 
+    // attack box
     this.attackBox.position.y = this.position.y + 50;
     if (this.direction === direction.RIGHT) {
       this.attackBox.position.x = this.position.x + this.width;
@@ -111,28 +109,42 @@ class Fighter extends Sprite {
   }
 
   switchSprite(sprite) {
+    // prevent switching sprite while getting hit
     if (
       this.image === this.sprites.hit.image &&
       this.currentFrame < this.sprites.hit.frames - 1
     ) {
       return;
     }
+
+    // prevent switching sprite while attacking
+    if (
+      this.image === this.sprites.attack1.image &&
+      this.currentFrame < this.sprites.attack1.frames - 1
+    ) {
+      return;
+    }
+
     switch (sprite) {
       case "idle":
         if (this.image != this.sprites.idle.image) {
           this.image = this.sprites.idle.image;
           this.frames = this.sprites.idle.frames;
+          this.framesHold = this.sprites.idle.framesHold;
           this.currentFrame = 0;
         }
         break;
       case "run":
+        document.querySelector("#run_sound").play();
         if (this.image != this.sprites.run.image) {
           this.image = this.sprites.run.image;
           this.frames = this.sprites.run.frames;
+          this.framesHold = this.sprites.run.framesHold;
           this.currentFrame = 0;
         }
         break;
       case "jump":
+        document.querySelector("#jump_sound").play();
         if (this.image != this.sprites.jump.image) {
           this.image = this.sprites.jump.image;
           this.frames = this.sprites.jump.frames;
@@ -150,6 +162,7 @@ class Fighter extends Sprite {
         if (this.image != this.sprites.attack1.image) {
           this.image = this.sprites.attack1.image;
           this.frames = this.sprites.attack1.frames;
+          this.framesHold = this.sprites.attack1.framesHold;
           this.currentFrame = 0;
         }
         break;
@@ -173,6 +186,9 @@ class Fighter extends Sprite {
       return;
     }
     this.switchSprite("attack1");
+    var attack = document.querySelector("#attack_sound");
+    attack.volume = 0.3;
+    attack.play();
     this.isAttacking1 = true;
     setTimeout(() => {
       this.isAttacking1 = false;

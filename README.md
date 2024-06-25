@@ -7,11 +7,11 @@ Welcome to this simple JavaScript Fighting Game! This project is a browser-based
 - [Demo](#demo)
 - [Features](#features)
 - [Game Controls](#game-controls)
+- [Future Work](#future-work)
 
 ## Demo
 
 Check out the game in action: [JavaScript Fighting Game Demo](https://gameproject-js-html-css.netlify.app/)
-Please click on the webpage once to activate the bgm 😅
 
 ## Features
 
@@ -37,3 +37,6 @@ Please click on the webpage once to activate the bgm 😅
 - Move Right: `ArrowRight`
 - Jump: `ArrowUp`
 - Attack: `ArrowDown`
+
+## Future Work
+- more complicated game mechanics (dash, block)

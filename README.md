@@ -11,6 +11,7 @@ Welcome to this simple JavaScript Fighting Game! This project is a browser-based
 ## Demo
 
 Check out the game in action: [JavaScript Fighting Game Demo](https://gameproject-js-html-css.netlify.app/)
+Please click on the webpage once to activate the bgm 😅
 
 ## Features
 

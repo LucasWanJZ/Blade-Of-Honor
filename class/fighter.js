@@ -144,7 +144,9 @@ class Fighter extends Sprite {
         }
         break;
       case "jump":
-        document.querySelector("#jump_sound").play();
+        var jump_audio = document.querySelector("#jump_sound");
+        jump_audio.volume = 0.3;
+        jump_audio.play();
         if (this.image != this.sprites.jump.image) {
           this.image = this.sprites.jump.image;
           this.frames = this.sprites.jump.frames;

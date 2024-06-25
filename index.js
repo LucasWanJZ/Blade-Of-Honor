@@ -68,7 +68,11 @@ function animate() {
   }
 
   if (gameEnd) {
-    document.querySelector("#start_sound").play();
+    var end_sound = document.querySelector("#end_sound");
+    end_sound.play();
+    setTimeout(() => {
+      end_sound.volume = 0;
+    }, 1200);
   }
 }
 

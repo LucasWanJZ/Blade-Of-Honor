@@ -10,7 +10,7 @@ Welcome to this simple JavaScript Fighting Game! This project is a browser-based
 
 ## Demo
 
-Check out the game in action: [https://gameproject-js-html-css.netlify.app/](#)
+Check out the game in action: [https://gameproject-js-html-css.netlify.app/] (#https://gameproject-js-html-css.netlify.app/)
 
 ## Features
 

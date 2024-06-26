@@ -1,6 +1,7 @@
 // game state
 let gameEnd = false;
-let gameStart = true;
+let gameStart = false;
+let Intro = true;
 
 // timer settings
 let timer = 30;
@@ -46,37 +47,43 @@ function updateGame() {
 
 // loop
 function animate() {
-  if (gameStart) {
-    document.querySelector("#game_end_ui").style.display = "flex";
-    document.querySelector("#game_end_ui").innerHTML = "GAME START";
-    setTimeout(() => {
-      document.querySelector("#game_end_ui").style.display = "none";
-      gameStart = false;
-    }, 1500);
-  }
+  if (!Intro) {
+    document.querySelector("#instruction").style.display = "none";
+    if (gameStart) {
+      document.querySelector("#game_end_ui").style.display = "flex";
+      document.querySelector("#game_end_ui").innerHTML = "GAME START";
+      setTimeout(() => {
+        document.querySelector("#game_end_ui").style.display = "none";
+        gameStart = false;
+      }, 1500);
+    }
 
-  window.requestAnimationFrame(animate);
-  c.clearRect(0, 0, canvas.width, canvas.height);
-  background.update();
-  shop.update();
-  lamp.update();
-  player.update();
-  enemy.update();
+    window.requestAnimationFrame(animate);
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    background.update();
+    shop.update();
+    lamp.update();
+    player.update();
+    enemy.update();
 
-  if (!player.death && !enemy.death) {
-    updateGame();
-  }
+    if (!player.death && !enemy.death) {
+      updateGame();
+    }
 
-  if (gameEnd) {
-    var end_sound = document.querySelector("#end_sound");
-    end_sound.play();
-    setTimeout(() => {
-      end_sound.volume = 0;
-    }, 1200);
+    if (gameEnd) {
+      var end_sound = document.querySelector("#end_sound");
+      end_sound.play();
+      setTimeout(() => {
+        end_sound.volume = 0;
+      }, 1200);
+    }
+  } else {
+    window.requestAnimationFrame(animate);
+    background.update();
+    shop.update();
+    lamp.update();
   }
 }
 
 // game start
-
-setTimeout(decreaseTimer, 1500);
 animate();

@@ -39,6 +39,6 @@ Check out the game in action: [JavaScript Fighting Game Demo](https://gameprojec
 - Attack: `ArrowDown`
 
 ## Future Work
-- improve game mechanics (recovery, stagger)
-- second attack type 
-- instruction sheet at Game Start
+- instruction sheet at Game Start ✅
+- improve game mechanics (Recovery, Stagger, Punish)
+- Second Attack

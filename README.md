@@ -40,5 +40,6 @@ Check out the game in action: [JavaScript Fighting Game Demo](https://gameprojec
 
 ## Future Work
 - instruction sheet at Game Start ✅
+- does not work properly on Google Chrome or Microsoft Edge 
 - improve game mechanics (Recovery, Stagger, Punish)
 - Second Attack

@@ -1,3 +1,102 @@
+/* - MASTER.RESET <<<--------*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video,
+active,
+hover,
+selected {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  text-decoration: none;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -91,19 +190,26 @@
 .instruction_title {
   position: absolute;
   font-family: "Press Start 2P", cursive;
-  bottom: 280px;
+  bottom: 90%;
   color: white;
-  font-size: 25px;
+  font-size: 130%;
+}
+
+.start_text {
+  font-size: 100%;
+  position: absolute;
+  font-family: "Press Start 2P", cursive;
+  bottom: 85%;
 }
 
 .intro_container {
   position: absolute;
-  border: 2px solid white;
+  border: 0.2vb solid white;
   color: white;
-  width: 60%;
-  height: 60%;
+  width: 50%;
+  height: 50%;
   top: 20%;
-  left: 20%;
+  left: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -122,7 +228,6 @@
 }
 
 .intro_content {
-  padding: 20px;
   width: 100%;
   height: 100%;
   display: flex;
@@ -142,22 +247,25 @@
   flex-direction: column;
   align-items: center;
   text-align: left;
-  font-size: 12px;
-  padding-left: 50px;
-  padding-bottom: 60px;
+  font-size: 75%;
+  padding-left: 10%;
+  padding-bottom: 15%;
 }
 
-.player_pic,
 .enemy_pic {
-  width: 100px;
-  height: 100px;
-  margin-top: 130px;
-  border: 2px solid white;
+  width: 40%;
+  height: 50%;
+  border: 1px solid white;
   border-radius: 50%;
+  margin-top: 40%;
+  margin-bottom: 10%;
 }
 
-.start_text {
-  position: absolute;
-  font-family: "Press Start 2P", cursive;
-  bottom: 268px;
+.player_pic {
+  width: 50%;
+  height: 40%;
+  border: 1px solid white;
+  border-radius: 50%;
+  margin-top: 48%;
+  margin-bottom: 10%;
 }

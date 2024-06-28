@@ -22,7 +22,7 @@ function decreaseTimer() {
 // music
 document.addEventListener("DOMContentLoaded", function () {
   var music = document.getElementById("bgm");
-  music.volume = 0.3;
+  music.volume = 0.2;
   document.body.addEventListener("click", function () {
     if (music.paused) {
       music.play();

@@ -75,8 +75,8 @@ window.addEventListener("keyup", (event) => {
 });
 
 window.addEventListener("click", () => {
-  setTimeout(decreaseTimer, 1500);
   if (Intro) {
+    setTimeout(decreaseTimer, 1500);
     Intro = false;
     gameStart = true;
   }

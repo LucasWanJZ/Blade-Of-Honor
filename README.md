@@ -39,7 +39,9 @@ Check out the game in action: [JavaScript Fighting Game Demo](https://gameprojec
 - Attack: `ArrowDown`
 
 ## Future Work
+
 - instruction sheet at Game Start ✅
-- does not work properly on Google Chrome or Microsoft Edge 
+- Bug : does not work properly on Google Chrome or Microsoft Edge ✅
+- Bug : clicking will speed up the timer ✅
 - improve game mechanics (Recovery, Stagger, Punish)
 - Second Attack

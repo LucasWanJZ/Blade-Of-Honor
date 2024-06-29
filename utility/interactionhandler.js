@@ -19,10 +19,8 @@ function handleAttack(player, enemy) {
   if (playerHitsEnemy) {
     enemy.staggered();
     if (player.direction === direction.RIGHT) {
-      if (enemy.position.x < canvas.width - enemy.width) enemy.position.x += 20;
-    }
-    if (player.direction === direction.LEFT) {
-      if (enemy.position.x > 0) enemy.position.x -= 20;
+      if (enemy.position.x < canvas.width - 20 - enemy.width)
+        enemy.position.x += 20;
     }
 
     player.isAttacking1 = false;
@@ -30,12 +28,8 @@ function handleAttack(player, enemy) {
   }
   if (enemyHitsPlayer) {
     player.staggered();
-    if (enemy.direction === direction.RIGHT) {
-      if (player.position.x < canvas.width - player.width)
-        player.position.x += 20;
-    }
     if (enemy.direction === direction.LEFT) {
-      if (player.position.x > 0) player.position.x -= 20;
+      if (player.position.x > 20) player.position.x -= 20;
     }
 
     enemy.isAttacking1 = false;
@@ -73,21 +67,23 @@ function updateFighterMovement(fighter1, fighter2) {
       }
     } else {
       // collision between fighters
-      if (fighter1.direction === direction.RIGHT) {
-        if (fighter1.position.x < enemy.position.x) {
-          fighter1.position.x -= 1;
+      if (fighter1.position.x < fighter2.position.x) {
+        if (fighter1.position.x < canvas.width / 2) {
+          if (fighter1.position.x > 1) fighter1.position.x -= 1;
           fighter2.position.x += 1;
         } else {
-          fighter1.position.x += 1;
-          fighter2.position.x -= 1;
+          fighter1.position.x -= 1;
+          if (fighter2.position.x < canvas.width - fighter2.width - 1)
+            fighter2.position.x += 1;
         }
-      } else if (fighter1.direction === direction.LEFT) {
-        if (fighter1.position.x > enemy.position.x) {
+      } else if (fighter1.position.x > fighter2.position.x) {
+        if (fighter1.position.x < canvas.width / 2) {
           fighter1.position.x += 1;
-          fighter2.position.x -= 1;
+          if (fighter2.position.x > 1) fighter2.position.x -= 1;
         } else {
-          fighter1.position.x -= 1;
-          fighter2.position.x += 1;
+          fighter2.position.x -= 1;
+          if (fighter1.position.x < canvas.width - fighter1.width - 1)
+            fighter1.position.x += 1;
         }
       } else if (fighter1.velocity.y > 0) {
         fighter1.position.y -= 3;

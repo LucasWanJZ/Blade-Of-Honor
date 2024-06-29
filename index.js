@@ -35,7 +35,7 @@ function updateGame() {
   // player movement
   updateFighterMovement(player, enemy);
 
-  // collision detection
+  // attack collision detection
   handleAttack(player, enemy);
 
   // check health bar
@@ -57,8 +57,6 @@ function animate() {
         gameStart = false;
       }, 1500);
     }
-
-    window.requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
     background.update();
     shop.update();
@@ -77,11 +75,12 @@ function animate() {
         end_sound.volume = 0;
       }, 1200);
     }
-  } else {
     window.requestAnimationFrame(animate);
+  } else {
     background.update();
     shop.update();
     lamp.update();
+    window.requestAnimationFrame(animate);
   }
 }
 

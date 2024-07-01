@@ -16,7 +16,7 @@ Check out the game in action: [Blade of Honour Demo](https://gameproject-js-html
 ## Features
 
 - Two-player fighting game
-- attack, charge attack and block (combat mechanics)
+- combat mechanic : Charge Attack, Attack, Block
 - Jumping and movement controls
 - Health bars for each player
 - Different animations for different actions
@@ -47,5 +47,5 @@ Check out the game in action: [Blade of Honour Demo](https://gameproject-js-html
 - instruction sheet at Game Start ✅
 - Second Attack and Block ✅
 - Main Menu and Main Menu Music ✅
-- add a Cat :3 ✅
+- add two Cats :3 ✅
 - Online Multiplayer

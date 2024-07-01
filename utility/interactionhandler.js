@@ -1,22 +1,24 @@
 // game end handler
 function checkHealthBar(timerId) {
   clearTimeout(timerId);
+  const gameEndUI = document.querySelector("#game_end_ui");
   if (player.health == enemy.health) {
-    document.querySelector("#game_end_ui").innerHTML = "It's a Draw!";
+    gameEndUI.innerHTML = "It's a Draw!";
   } else if (player.health > enemy.health) {
-    document.querySelector("#game_end_ui").innerHTML = "Hiroshi Wins!";
+    gameEndUI.innerHTML = "Hiroshi Wins!";
     player.switchSprite("idle");
   } else {
-    document.querySelector("#game_end_ui").innerHTML = "Jiro Wins!";
+    gameEndUI.innerHTML = "Jiro Wins!";
     enemy.switchSprite("idle");
   }
+  end_sound.play();
   document.querySelector("#restart").style.display = "flex";
-  document.querySelector("#game_end_ui").style.display = "flex";
+  gameEndUI.style.display = "flex";
 }
 
 // player getting hit
-function playerHit1() {
-  player.health -= 15;
+function handlePlayerHit(damage, moveBack) {
+  player.health -= damage;
   if (player.health <= 0) {
     player.health = 0;
     player.switchSprite("death");
@@ -26,35 +28,12 @@ function playerHit1() {
   gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
   enemy.attacking1 = false;
   enemy.attacking2 = false;
-  if (player.position.x > 50) {
-    player.position.x -= 50;
-  } else {
-    player.position.x = 0;
-  }
+  player.position.x = Math.max(player.position.x - moveBack, 0);
 }
 
-function playerHit2() {
-  player.health -= 30;
-  console.log(player.health);
-  if (player.health <= 0) {
-    player.health = 0;
-    player.switchSprite("death");
-  } else {
-    player.staggered();
-  }
-  gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
-  enemy.attacking2 = false;
-  enemy.attacking1 = false;
-  if (player.position.x > 50) {
-    player.position.x -= 50;
-  } else {
-    player.position.x = 0;
-  }
-}
-
-//enemy getting hit
-function enemyHit1() {
-  enemy.health -= 15;
+// enemy getting hit
+function handleEnemyHit(damage, moveBack) {
+  enemy.health -= damage;
   if (enemy.health <= 0) {
     enemy.health = 0;
     enemy.switchSprite("death");
@@ -63,29 +42,25 @@ function enemyHit1() {
   }
   gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
   player.attacking1 = false;
-  if (enemy.position.x < canvas.width - 30 - enemy.width) {
-    enemy.position.x += 50;
-  } else {
-    enemy.position.x = canvas.width - enemy.width;
-  }
+  player.attacking2 = false;
+  enemy.position.x = Math.min(
+    enemy.position.x + moveBack,
+    canvas.width - enemy.width
+  );
 }
 
+// players attack
+function playerHit1() {
+  handlePlayerHit(15, 50);
+}
+function playerHit2() {
+  handlePlayerHit(30, 50);
+}
+function enemyHit1() {
+  handleEnemyHit(15, 50);
+}
 function enemyHit2() {
-  enemy.stunned = true;
-  enemy.health -= 30;
-  if (enemy.health <= 0) {
-    enemy.health = 0;
-    enemy.switchSprite("death");
-  } else {
-    enemy.staggered();
-  }
-  gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
-  player.attacking2 = false;
-  if (enemy.position.x < canvas.width - 30 - enemy.width) {
-    enemy.position.x += 50;
-  } else {
-    enemy.position.x = canvas.width - enemy.width;
-  }
+  handleEnemyHit(30, 50);
 }
 
 // attack handler
@@ -128,99 +103,89 @@ function handleAttack(player, enemy) {
 }
 
 // movement handler
-function updateFighterMovement(fighter1, fighter2) {
-  // fighter1 movement
-  fighter1.velocity.x = 0;
-  if (
-    !fighter1.stunned &&
-    !fighter1.blocking &&
-    !fighter1.charging &&
-    !fighter1.attacking1 &&
-    !fighter1.attacking2
-  ) {
-    if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
-      if (keys.a.pressed && fighter1.lastkey === "a") {
-        fighter1.switchSprite("run");
-        fighter1.velocity.x = -1;
-      } else if (keys.d.pressed && player.lastkey === "d") {
-        fighter1.switchSprite("run");
-        fighter1.velocity.x = 1;
+function handleMovement(
+  fighter,
+  keys,
+  leftKey,
+  rightKey,
+  upKey,
+  oppositeFighter
+) {
+  let cantMove =
+    !fighter.stunned &&
+    !fighter.blocking &&
+    !fighter.charging &&
+    !fighter.attacking1 &&
+    !fighter.attacking2;
+  fighter.velocity.x = 0;
+  if (cantMove) {
+    if (!spriteCollision({ sprite1: fighter, sprite2: oppositeFighter })) {
+      if (keys[leftKey].pressed && fighter.lastkey === leftKey) {
+        fighter.switchSprite("run");
+        fighter.velocity.x = -1;
+      } else if (keys[rightKey].pressed && fighter.lastkey === rightKey) {
+        fighter.switchSprite("run");
+        fighter.velocity.x = 1;
       } else {
-        fighter1.switchSprite("idle");
+        fighter.switchSprite("idle");
       }
-
-      if (fighter1.velocity.y > 0) {
-        fighter1.switchSprite("fall");
+      if (fighter.velocity.y > 0) {
+        fighter.switchSprite("fall");
       }
-
-      if (keys.w.pressed && player.jumpcount < 2) {
-        fighter1.switchSprite("jump");
-        if (fighter1.touchGround) {
-          fighter1.velocity.y = -15;
-        } else {
-          fighter1.velocity.y = -10;
-        }
+      if (keys[upKey].pressed && fighter.jumpcount < 2) {
+        fighter.switchSprite("jump");
+        fighter.velocity.y = fighter.touchGround ? -15 : -10;
       }
     } else {
-      // collision between fighters
-      if (fighter1.position.x < fighter2.position.x) {
-        if (fighter1.position.x < canvas.width / 2) {
-          if (fighter1.position.x > 1) fighter1.position.x -= 1;
-          fighter2.position.x += 1;
-        } else {
-          fighter1.position.x -= 1;
-          if (fighter2.position.x < canvas.width - fighter2.width - 1)
-            fighter2.position.x += 1;
-        }
-      } else if (fighter1.position.x > fighter2.position.x) {
-        if (fighter1.position.x < canvas.width / 2) {
-          fighter1.position.x += 1;
-          if (fighter2.position.x > 1) fighter2.position.x -= 1;
-        } else {
-          fighter2.position.x -= 1;
-          if (fighter1.position.x < canvas.width - fighter1.width - 1)
-            fighter1.position.x += 1;
-        }
-      } else if (fighter1.velocity.y > 0) {
-        fighter1.position.y -= 3;
-      } else if (fighter2.velocity.y > 0) {
-        fighter2.position.y -= 3;
-      }
+      handleCollision(fighter, oppositeFighter);
     }
   }
+}
 
-  // fighter2 movement
-  fighter2.velocity.x = 0;
-  if (
-    !fighter2.stunned &&
-    !fighter2.charging &&
-    !fighter2.blocking &&
-    !fighter2.attacking1 &&
-    !fighter2.attacking2
-  ) {
-    if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
-      if (keys.ArrowLeft.pressed && fighter2.lastkey === "ArrowLeft") {
-        fighter2.switchSprite("run");
-        fighter2.velocity.x = -1;
-      } else if (keys.ArrowRight.pressed && fighter2.lastkey === "ArrowRight") {
-        fighter2.switchSprite("run");
-        fighter2.velocity.x = 1;
-      } else {
-        fighter2.switchSprite("idle");
-      }
-
-      if (fighter2.velocity.y > 0) {
-        fighter2.switchSprite("fall");
-      }
-
-      if (keys.ArrowUp.pressed && enemy.jumpcount < 2) {
-        fighter2.switchSprite("jump");
-        if (fighter2.touchGround) {
-          fighter2.velocity.y = -15;
-        } else {
-          fighter2.velocity.y = -10;
-        }
-      }
+function handleCollision(fighter1, fighter2) {
+  if (fighter1.position.x < fighter2.position.x) {
+    if (fighter1.position.x < canvas.width / 2) {
+      fighter1.position.x = Math.max(fighter1.position.x - 1, 0);
+      fighter2.position.x = Math.min(
+        fighter2.position.x + 1,
+        canvas.width - fighter2.width
+      );
+    } else {
+      fighter1.position.x = Math.max(fighter1.position.x - 1, 0);
+      fighter2.position.x = Math.min(
+        fighter2.position.x + 1,
+        canvas.width - fighter2.width
+      );
     }
+  } else if (fighter1.position.x > fighter2.position.x) {
+    if (fighter1.position.x < canvas.width / 2) {
+      fighter1.position.x = Math.min(
+        fighter1.position.x + 1,
+        canvas.width - fighter1.width
+      );
+      fighter2.position.x = Math.max(fighter2.position.x - 1, 0);
+    } else {
+      fighter1.position.x = Math.min(
+        fighter1.position.x + 1,
+        canvas.width - fighter1.width
+      );
+      fighter2.position.x = Math.max(fighter2.position.x - 1, 0);
+    }
+  } else if (fighter1.velocity.y > 0) {
+    fighter1.position.y -= 3;
+  } else if (fighter2.velocity.y > 0) {
+    fighter2.position.y -= 3;
   }
+}
+
+function updateFighterMovement(fighter1, fighter2) {
+  handleMovement(fighter1, keys, "a", "d", "w", fighter2);
+  handleMovement(
+    fighter2,
+    keys,
+    "ArrowLeft",
+    "ArrowRight",
+    "ArrowUp",
+    fighter1
+  );
 }

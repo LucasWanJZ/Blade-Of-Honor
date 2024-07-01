@@ -4,6 +4,10 @@ canvas.width = 1024;
 canvas.height = 576;
 const c = canvas.getContext("2d");
 
+// Music
+var menu_music = document.querySelector("#main_music");
+var end_sound = document.querySelector("#end_sound");
+
 // Key pressed
 const keys = {
   a: { pressed: false },
@@ -18,6 +22,10 @@ const keys = {
 const gravity = 1;
 const middle = canvas.width / 2;
 const center = canvas.height / 2;
+
+// timer settings
+let timer = 60;
+let timerId;
 
 // background
 const background = new Sprite({

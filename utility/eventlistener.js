@@ -1,5 +1,11 @@
 window.addEventListener("keydown", (event) => {
-  if (player.health > 0 && enemy.health > 0 && timer > 0 && timer < 60) {
+  //boolean
+  let GameIsRunning =
+    player.health > 0 && enemy.health > 0 && timer > 0 && timer < 60;
+  let noMovePlayer = !player.stunned && !player.attacking1 && !player.charging;
+  let noMoveEnemy = !enemy.stunned && !enemy.attacking1 && !enemy.charging;
+
+  if (GameIsRunning) {
     switch (event.key) {
       // player1 keys
       case "d":
@@ -38,7 +44,7 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case "s":
-        if (!player.stunned && !player.attacking1 && !player.charging) {
+        if (noMovePlayer) {
           player.block();
         }
         break;
@@ -69,7 +75,7 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case "ArrowDown":
-        if (!enemy.stunned && !enemy.attacking1 && !enemy.charging) {
+        if (noMoveEnemy) {
           enemy.block();
         }
         break;
@@ -121,13 +127,7 @@ window.addEventListener("keyup", (event) => {
 window.addEventListener("click", () => {
   if (timer == 60) {
     setTimeout(decreaseTimer, 1500);
-    document.querySelector("#instruction").style.display = "none";
-    document.querySelector("#main_bg").style.display = "none";
-    document.querySelector("#hint_id").style.display = "none";
-    document.querySelector("#hint_music").style.display = "none";
-    document.querySelector("#main_music").pause();
-    document.querySelector("#game_end_ui").style.display = "flex";
-    document.querySelector("#game_end_ui").innerHTML = "GAME START";
+    transitionToGame();
     setTimeout(() => {
       document.querySelector("#game_end_ui").style.display = "none";
     }, 1500);

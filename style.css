@@ -81,10 +81,7 @@ summary,
 time,
 mark,
 audio,
-video,
-active,
-hover,
-selected {
+video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -101,32 +98,31 @@ ul {
   box-sizing: border-box;
 }
 
-/* main container for the page */
+/* Main container */
 .main_container {
   position: relative;
   display: inline-block;
 }
 
-/* players name */
-.player_name {
-  position: absolute;
-  color: white;
-  font-family: "Press Start 2P", cursive;
-  font-size: 100%;
-  top: 12%;
-  left: 2%;
-}
-
+/* Player and enemy names */
+.player_name,
 .enemy_name {
   position: absolute;
   color: white;
   font-family: "Press Start 2P", cursive;
   font-size: 100%;
   top: 12%;
+}
+
+.player_name {
+  left: 2%;
+}
+
+.enemy_name {
   right: 2%;
 }
 
-/* container for ui */
+/* UI container */
 .ui_container {
   position: absolute;
   display: flex;
@@ -135,7 +131,7 @@ ul {
   padding: 20px;
 }
 
-/* hp bar */
+/* Health bars */
 .health_bar_container {
   position: relative;
   width: 100%;
@@ -149,6 +145,7 @@ ul {
   height: 30px;
 }
 
+.enemy_hp_bar,
 .player_hp_bar {
   position: absolute;
   background-color: #818cf8;
@@ -158,26 +155,21 @@ ul {
   width: 100%;
 }
 
+.enemy_hp_bar {
+  left: 0;
+}
+
 .player_hp_container {
   display: flex;
   justify-content: flex-end;
   border-left: 4px solid white;
 }
 
-.enemy_hp_bar {
-  position: absolute;
-  background-color: #818cf8;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
 .enemy_hp_container {
   border-right: 4px solid white;
 }
 
-/* timer */
+/* Timer */
 .timer {
   background-color: #85214f;
   border: 4px solid white;
@@ -191,17 +183,17 @@ ul {
   font-family: "Press Start 2P", cursive;
 }
 
-/* game end ui */
+/* Game end UI */
 .game_end_ui {
   position: absolute;
   color: white;
+  display: none;
   align-items: center;
   justify-content: center;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  display: none;
   font-family: "Press Start 2P", cursive;
 }
 
@@ -210,19 +202,21 @@ ul {
   top: 10%;
 }
 
-/* instruction ui */
-.instruction_title {
+/* Instruction UI */
+.instruction_title,
+.hint,
+.start_text {
   position: absolute;
   font-family: "Press Start 2P", cursive;
-  bottom: 90%;
   color: white;
+}
+
+.instruction_title {
+  bottom: 90%;
   font-size: 130%;
 }
 
 .hint {
-  position: absolute;
-  font-family: "Press start 2p", cursive;
-  color: white;
   width: 50%;
   top: 80%;
   left: 25%;
@@ -231,12 +225,11 @@ ul {
 }
 
 .start_text {
-  font-size: 100%;
-  position: absolute;
-  font-family: "Press Start 2P", cursive;
   bottom: 85%;
+  font-size: 100%;
 }
 
+/* Intro container */
 .intro_container {
   position: absolute;
   color: white;
@@ -248,6 +241,7 @@ ul {
   font-family: "Press Start 2P", cursive;
 }
 
+/* Control container */
 .control_container {
   display: flex;
   flex-direction: column;
@@ -262,9 +256,7 @@ ul {
   flex-direction: column;
   align-items: center;
   text-align: left;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-bottom: 5%;
+  margin: 0 10% 5%;
 }
 
 .control p {
@@ -272,17 +264,15 @@ ul {
   font-size: 60%;
 }
 
-.player_pic {
-  width: 40%;
-  height: 40%;
-  margin-right: 50%;
-}
+/* Player and enemy pictures */
+.player_pic,
 .enemy_pic {
-  margin-right: 50%;
   width: 40%;
   height: 40%;
+  margin-right: 50%;
 }
 
+/* Main background */
 .main_bg {
   position: absolute;
   width: 100%;
@@ -290,6 +280,7 @@ ul {
   filter: brightness(0.5);
 }
 
+/* Hint music */
 .hint_music {
   color: peachpuff;
   top: 90%;

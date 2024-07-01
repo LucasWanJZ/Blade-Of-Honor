@@ -66,7 +66,8 @@ class Fighter extends Sprite {
   }
 
   draw() {
-    if (this.stunned) {
+    // stunned animation
+    if (this.stunned && this.health > 0) {
       c.drawImage(
         this.stunnedImage,
         this.position.x - 20,
@@ -76,6 +77,7 @@ class Fighter extends Sprite {
       );
     }
 
+    // sprite animation
     c.drawImage(
       this.image,
       (this.image.width / this.frames) * this.currentFrame,
@@ -87,6 +89,8 @@ class Fighter extends Sprite {
       (this.image.width / this.frames) * this.scale,
       this.image.height * this.scale
     );
+
+    // block box
     if (this.blocking) {
       c.beginPath();
       c.arc(
@@ -104,6 +108,7 @@ class Fighter extends Sprite {
       c.closePath();
     }
 
+    // reset canvas brush settings
     c.strokeStyle = "#000000";
     c.shadowColor = "rgba(0, 0, 0, 0)";
     c.shadowBlur = 0;
@@ -274,6 +279,7 @@ class Fighter extends Sprite {
     var attack = document.querySelector("#attack2_sound");
     attack.volume = 0.8;
 
+    // charge attack, if not interrupted, attack after 0.4s
     this.charging = true;
     const chargingTime = setTimeout(() => {
       if (!this.stunned) {
@@ -303,6 +309,7 @@ class Fighter extends Sprite {
     this.stunned = true;
     this.switchSprite("hit");
 
+    // charge attack interrupted
     if (this.charging) {
       clearTimeout(this.chargedTimeOut);
       this.charging = false;

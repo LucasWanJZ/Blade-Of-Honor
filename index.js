@@ -1,7 +1,3 @@
-// timer settings
-let timer = 60;
-let timerId;
-
 // timer
 function decreaseTimer() {
   if (timer > 0) {
@@ -13,9 +9,21 @@ function decreaseTimer() {
   }
 }
 
-// music
-var menu_music = document.querySelector("#main_music");
+// transition to game
+function transitionToGame() {
+  // close main menu
+  document.querySelector("#main_music").pause();
+  document.querySelector("#instruction").style.display = "none";
+  document.querySelector("#main_bg").style.display = "none";
+  document.querySelector("#hint_id").style.display = "none";
+  document.querySelector("#hint_music").style.display = "none";
 
+  // start game
+  document.querySelector("#game_end_ui").innerHTML = "GAME START";
+  document.querySelector("#game_end_ui").style.display = "flex";
+}
+
+// music
 document.addEventListener("DOMContentLoaded", function () {
   var music = document.getElementById("bgm");
   music.volume = 0.5;
@@ -39,8 +47,6 @@ function updateGame() {
     checkHealthBar(timerId);
 
     // end sound
-    var end_sound = document.querySelector("#end_sound");
-    end_sound.play();
   }
 }
 

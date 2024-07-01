@@ -24,7 +24,31 @@ function playerHit1() {
   }
   gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
   enemy.attacking1 = false;
-  if (player.position.x > 30) player.position.x -= 30;
+  enemy.attacking2 = false;
+  if (player.position.x > 50) {
+    player.position.x -= 50;
+  } else {
+    player.position.x = 0;
+  }
+}
+
+function playerHit2() {
+  player.health -= 30;
+  console.log(player.health);
+  if (player.health <= 0) {
+    player.health = 0;
+    player.switchSprite("death");
+  } else {
+    player.staggered();
+  }
+  gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
+  enemy.attacking2 = false;
+  enemy.attacking1 = false;
+  if (player.position.x > 50) {
+    player.position.x -= 50;
+  } else {
+    player.position.x = 0;
+  }
 }
 
 //enemy getting hit
@@ -38,27 +62,25 @@ function enemyHit1() {
   }
   gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
   player.attacking1 = false;
-  if (enemy.position.x < canvas.width - 30 - enemy.width)
-    enemy.position.x += 30;
+  if (enemy.position.x < canvas.width - 30 - enemy.width) {
+    enemy.position.x += 50;
+  } else {
+    enemy.position.x = canvas.width - enemy.width;
+  }
 }
 
-// function enemyHit2() {
-//   enemy.stunned = true;
-//   enemy.health -= 30;
-//   if (enemy.health <= 0) {
-//     enemy.health = 0;
-//     enemy.switchSprite("death");
-//   } else {
-//     enemy.switchSprite("hit");
-//     setTimeout(() => {
-//       enemy.stunned = false;
-//     }, 600);
-//   }
-//   gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
-//   player.attacking2 = false;
-//   if (enemy.position.x < canvas.width - 100 - enemy.width)
-//     enemy.position.x += 100;
-// }
+function enemyHit2() {
+  enemy.stunned = true;
+  enemy.health -= 30;
+  if (enemy.health <= 0) {
+    enemy.health = 0;
+    enemy.switchSprite("death");
+  } else {
+    enemy.staggered();
+  }
+  gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
+  player.attacking2 = false;
+}
 
 // attack handler
 function handleAttack(player, enemy) {
@@ -77,6 +99,8 @@ function handleAttack(player, enemy) {
       } else {
         enemyHit1();
       }
+    } else {
+      enemyHit2();
     }
   }
   // enemy attacks player
@@ -91,6 +115,8 @@ function handleAttack(player, enemy) {
       } else {
         playerHit1();
       }
+    } else {
+      playerHit2();
     }
   }
 }
@@ -99,7 +125,13 @@ function handleAttack(player, enemy) {
 function updateFighterMovement(fighter1, fighter2) {
   // fighter1 movement
   fighter1.velocity.x = 0;
-  if (!fighter1.stunned && !fighter1.blocking) {
+  if (
+    !fighter1.stunned &&
+    !fighter1.blocking &&
+    !fighter1.charging &&
+    !fighter1.attacking1 &&
+    !fighter1.attacking2
+  ) {
     if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
       if (keys.a.pressed && fighter1.lastkey === "a") {
         fighter1.switchSprite("run");
@@ -153,7 +185,13 @@ function updateFighterMovement(fighter1, fighter2) {
 
   // fighter2 movement
   fighter2.velocity.x = 0;
-  if (!fighter2.stunned && !fighter2.recovering && !fighter2.blocking) {
+  if (
+    !fighter2.stunned &&
+    !fighter2.charging &&
+    !fighter2.blocking &&
+    !fighter2.attacking1 &&
+    !fighter2.attacking2
+  ) {
     if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
       if (keys.ArrowLeft.pressed && fighter2.lastkey === "ArrowLeft") {
         fighter2.switchSprite("run");

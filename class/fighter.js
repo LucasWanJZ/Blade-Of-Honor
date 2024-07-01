@@ -55,7 +55,7 @@ class Fighter extends Sprite {
     this.framesHold = framesHold;
     this.sprites = sprites;
     this.attackFrame = attackFrame;
-    this.attackFrame2 = 3;
+    this.attackFrame2 = 4;
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -267,7 +267,20 @@ class Fighter extends Sprite {
     this.switchSprite("attack2");
     var attack = document.querySelector("#attack2_sound");
     attack.volume = 0.8;
-    attack.play();
+
+    this.charging = true;
+    const chargingTime = setTimeout(() => {
+      if (!this.stunned) {
+        attack.play();
+        this.attacking2 = true;
+        this.charging = false;
+      }
+    }, 400);
+    setTimeout(() => {
+      this.attacking2 = false;
+    }, 800);
+
+    this.chargedTimeOut = chargingTime;
   }
 
   block() {
@@ -283,6 +296,13 @@ class Fighter extends Sprite {
   staggered() {
     this.stunned = true;
     this.switchSprite("hit");
+
+    if (this.charging) {
+      clearTimeout(this.chargedTimeOut);
+      this.charging = false;
+      this.attacking2 = false;
+    }
+
     setTimeout(() => {
       this.stunned = false;
     }, 500);

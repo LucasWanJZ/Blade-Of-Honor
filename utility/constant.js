@@ -112,11 +112,11 @@ const player = new Fighter({
     attack2: {
       src: "./assets/fighters/Samurai Fighter/Attack2.png",
       frames: 6,
-      framesHold: 7,
+      framesHold: 10,
     },
   },
   attackBox: {
-    width: 180,
+    width: 150,
     height: 50,
     offset: {
       x: 30,
@@ -174,14 +174,14 @@ const enemy = new Fighter({
     attack2: {
       src: "./assets/fighters/Ninja Fighter/Attack2.png",
       frames: 6,
-      framesHold: 7,
+      framesHold: 10,
     },
   },
   attackBox: {
-    width: 180,
+    width: 150,
     height: 50,
     offset: {
-      x: -170,
+      x: -150,
       y: 0,
     },
   },

@@ -5,10 +5,71 @@ function checkHealthBar(timerId) {
     document.querySelector("#game_end_ui").innerHTML = "It's a draw!";
   } else if (player.health > enemy.health) {
     document.querySelector("#game_end_ui").innerHTML = "Player 1 Wins!";
+    player.switchSprite("idle");
   } else {
     document.querySelector("#game_end_ui").innerHTML = "Player 2 Wins!";
+    enemy.switchSprite("idle");
   }
   document.querySelector("#game_end_ui").style.display = "flex";
+}
+
+// player getting hit
+function playerHit1() {
+  player.stunned = true;
+  player.health -= 15;
+  if (player.health <= 0) {
+    player.health = 0;
+    player.switchSprite("death");
+  } else {
+    player.switchSprite("hit");
+    setTimeout(() => {
+      player.stunned = false;
+    }, 500);
+  }
+  gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
+  enemy.attacking1 = false;
+  enemy.attacking2 = false;
+  player.attacking2 = false;
+  if (player.position.x > 30) player.position.x -= 30;
+}
+
+//enemy getting hit
+function enemyHit1() {
+  enemy.stunned = true;
+  enemy.health -= 15;
+  if (enemy.health <= 0) {
+    enemy.health = 0;
+    enemy.switchSprite("death");
+  } else {
+    enemy.switchSprite("hit");
+    setTimeout(() => {
+      enemy.stunned = false;
+    }, 500);
+  }
+  gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
+  player.attacking1 = false;
+  player.attacking2 = false;
+  enemy.attacking2 = false;
+  if (enemy.position.x < canvas.width - 30 - enemy.width)
+    enemy.position.x += 30;
+}
+
+function enemyHit2() {
+  enemy.stunned = true;
+  enemy.health -= 30;
+  if (enemy.health <= 0) {
+    enemy.health = 0;
+    enemy.switchSprite("death");
+  } else {
+    enemy.switchSprite("hit");
+    setTimeout(() => {
+      enemy.stunned = false;
+    }, 600);
+  }
+  gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
+  player.attacking2 = false;
+  if (enemy.position.x < canvas.width - 100 - enemy.width)
+    enemy.position.x += 100;
 }
 
 // attack handler
@@ -16,24 +77,25 @@ function handleAttack(player, enemy) {
   const playerHitsEnemy = attackCollision({ sprite1: player, sprite2: enemy });
   const enemyHitsPlayer = attackCollision({ sprite1: enemy, sprite2: player });
 
+  // player attacks
   if (playerHitsEnemy) {
-    enemy.staggered();
-    if (player.direction === direction.RIGHT) {
-      if (enemy.position.x < canvas.width - 20 - enemy.width)
-        enemy.position.x += 20;
+    if (player.attacking1) {
+      enemyHit1();
+      // player's charge attack
+    } else if (player.attacking2) {
+      enemyHit2();
     }
-
-    player.isAttacking1 = false;
-    gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
-  }
-  if (enemyHitsPlayer) {
-    player.staggered();
-    if (enemy.direction === direction.LEFT) {
-      if (player.position.x > 20) player.position.x -= 20;
+    // enemy attacks player
+    if (enemyHitsPlayer) {
+      if (enemy.attacking1) {
+        if (player.charging) {
+          clearTimeout(player.chargeTimeout);
+          player.charging = false;
+          player.attacking2 = false;
+        }
+        playerHit1();
+      }
     }
-
-    enemy.isAttacking1 = false;
-    gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
   }
 }
 
@@ -41,7 +103,7 @@ function handleAttack(player, enemy) {
 function updateFighterMovement(fighter1, fighter2) {
   // fighter1 movement
   fighter1.velocity.x = 0;
-  if (!fighter1.isStaggered && !fighter1.recovering) {
+  if (!fighter1.stunned && !fighter1.blocking) {
     if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
       if (keys.a.pressed && fighter1.lastkey === "a") {
         fighter1.switchSprite("run");
@@ -60,9 +122,9 @@ function updateFighterMovement(fighter1, fighter2) {
       if (keys.w.pressed && player.jumpcount < 2) {
         fighter1.switchSprite("jump");
         if (fighter1.touchGround) {
-          fighter1.velocity.y -= 30;
+          fighter1.velocity.y = -15;
         } else {
-          fighter1.velocity.y = -20;
+          fighter1.velocity.y = -10;
         }
       }
     } else {
@@ -95,7 +157,7 @@ function updateFighterMovement(fighter1, fighter2) {
 
   // fighter2 movement
   fighter2.velocity.x = 0;
-  if (!fighter2.isStaggered && !fighter2.recovering) {
+  if (!fighter2.isStaggered && !fighter2.recovering && !fighter2.blocking) {
     if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
       if (keys.ArrowLeft.pressed && fighter2.lastkey === "ArrowLeft") {
         fighter2.switchSprite("run");
@@ -114,9 +176,9 @@ function updateFighterMovement(fighter1, fighter2) {
       if (keys.ArrowUp.pressed && enemy.jumpcount < 2) {
         fighter2.switchSprite("jump");
         if (fighter2.touchGround) {
-          fighter2.velocity.y -= 30;
+          fighter2.velocity.y = -15;
         } else {
-          fighter2.velocity.y = -20;
+          fighter2.velocity.y = -10;
         }
       }
     }

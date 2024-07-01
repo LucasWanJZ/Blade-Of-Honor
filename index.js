@@ -1,10 +1,5 @@
-// game state
-let gameEnd = false;
-let gameStart = false;
-let Intro = true;
-
 // timer settings
-let timer = 30;
+let timer = 60;
 let timerId;
 
 // timer
@@ -15,14 +10,13 @@ function decreaseTimer() {
     document.querySelector("#timer").innerText = timer;
   } else {
     checkHealthBar(timerId);
-    gameEnd = true;
   }
 }
 
 // music
 document.addEventListener("DOMContentLoaded", function () {
   var music = document.getElementById("bgm");
-  music.volume = 0.2;
+  music.volume = 0.5;
   document.body.addEventListener("click", function () {
     if (music.paused) {
       music.play();
@@ -41,47 +35,30 @@ function updateGame() {
   // check health bar
   if (player.health <= 0 || enemy.health <= 0) {
     checkHealthBar(timerId);
-    gameEnd = true;
+
+    // end sound
+    var end_sound = document.querySelector("#end_sound");
+    end_sound.play();
   }
 }
 
 // loop
 function animate() {
-  if (!Intro) {
-    document.querySelector("#instruction").style.display = "none";
-    if (gameStart) {
-      document.querySelector("#game_end_ui").style.display = "flex";
-      document.querySelector("#game_end_ui").innerHTML = "GAME START";
-      setTimeout(() => {
-        document.querySelector("#game_end_ui").style.display = "none";
-        gameStart = false;
-      }, 1500);
-    }
-    c.clearRect(0, 0, canvas.width, canvas.height);
-    background.update();
-    shop.update();
-    lamp.update();
+  c.clearRect(0, 0, canvas.width, canvas.height);
+  background.update();
+  shop.update();
+  lamp.update();
+
+  if (timer < 60) {
     player.update();
     enemy.update();
-
-    if (!player.death && !enemy.death) {
-      updateGame();
-    }
-
-    if (gameEnd) {
-      var end_sound = document.querySelector("#end_sound");
-      end_sound.play();
-      setTimeout(() => {
-        end_sound.volume = 0;
-      }, 1200);
-    }
-    window.requestAnimationFrame(animate);
-  } else {
-    background.update();
-    shop.update();
-    lamp.update();
-    window.requestAnimationFrame(animate);
   }
+
+  if (!player.death && !enemy.death) {
+    updateGame();
+  }
+
+  window.requestAnimationFrame(animate);
 }
 
 // game start

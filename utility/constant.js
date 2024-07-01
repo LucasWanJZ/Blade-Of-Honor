@@ -14,18 +14,23 @@ const keys = {
   ArrowUp: { pressed: false },
 };
 
-// player's direction
-const direction = {
-  LEFT: "left",
-  RIGHT: "right",
-};
-
 // World settings
-const gravity = 2;
+const gravity = 1;
 const middle = canvas.width / 2;
 const center = canvas.height / 2;
 
 // background
+const background0 = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  imageSrc: "./assets/background/Background_0.png",
+  height: canvas.height,
+  width: canvas.width,
+  scale: 1.15,
+});
+
 const background = new Sprite({
   position: {
     x: 0,
@@ -63,10 +68,9 @@ const lamp = new Sprite({
 const player = new Fighter({
   position: { x: middle - 200, y: center - 100 },
   imageSrc: "./assets/fighters/Samurai Fighter/Idle.png",
-  direction: direction.RIGHT,
   scale: 2.5,
   offset: {
-    x: 215,
+    x: 245,
     y: 155,
   },
   sprites: {
@@ -98,24 +102,37 @@ const player = new Fighter({
     hit: {
       src: "./assets/fighters/Samurai Fighter/Take Hit.png",
       frames: 4,
+      framesHold: 20,
     },
     death: {
       src: "./assets/fighters/Samurai Fighter/Death.png",
       frames: 6,
       framesHold: 15,
     },
+    attack2: {
+      src: "./assets/fighters/Samurai Fighter/Attack2.png",
+      frames: 6,
+      framesHold: 7,
+    },
   },
   attackBox: {
-    width: 150,
+    width: 180,
     height: 50,
+    offset: {
+      x: 30,
+      y: 0,
+    },
   },
   attackFrame: 3,
+  blockOffset: {
+    x: -20,
+    y: 10,
+  },
 });
 
 const enemy = new Fighter({
   position: { x: middle + 200, y: center - 100 },
   imageSrc: "./assets/fighters/Ninja Fighter/Idle.png",
-  direction: direction.LEFT,
   scale: 2.25,
   offset: {
     x: 215,
@@ -134,8 +151,8 @@ const enemy = new Fighter({
     },
     attack1: {
       src: "./assets/fighters/Ninja Fighter/Attack1.png",
-      frames: 4,
-      framesHold: 8,
+      frames: 6,
+      framesHold: 5,
     },
     jump: {
       src: "./assets/fighters/Ninja Fighter/Jump.png",
@@ -148,15 +165,29 @@ const enemy = new Fighter({
     hit: {
       src: "./assets/fighters/Ninja Fighter/Take hit.png",
       frames: 3,
+      framesHold: 20,
     },
     death: {
       src: "./assets/fighters/Ninja Fighter/Death.png",
       frames: 7,
     },
+    attack2: {
+      src: "./assets/fighters/Ninja Fighter/Attack2.png",
+      frames: 6,
+      framesHold: 7,
+    },
   },
   attackBox: {
-    width: 150,
+    width: 180,
     height: 50,
+    offset: {
+      x: -170,
+      y: 0,
+    },
   },
-  attackFrame: 2,
+  attackFrame: 3,
+  blockOffset: {
+    x: -25,
+    y: 10,
+  },
 });

@@ -29,20 +29,24 @@ Check out the game in action: [JavaScript Fighting Game Demo](https://gameprojec
 - Move Left: `A`
 - Move Right: `D`
 - Jump: `W`
-- Attack: `R`
+- Block: `S`
+- Light Attack: `R`
+- Strong Attack: `Space Bar`
 
 ### Player 2
 
 - Move Left: `ArrowLeft`
 - Move Right: `ArrowRight`
 - Jump: `ArrowUp`
-- Attack: `ArrowDown`
+- Block: `ArrowDown`
+- Light Attack: `Enter`
+- Strong Attack: `Shift`
 
 ## Future Work
 
 - instruction sheet at Game Start ✅
-- Bug : does not work properly on Google Chrome or Microsoft Edge ✅
-- Bug : clicking will speed up the timer ✅
-- Bug : Players stucked at the border after getting attacked or pushed ✅
-- improve game mechanics (Recovery, Stagger, Punish)
-- Second Attack
+- Bug : does not work properly on Google Chrome or Microsoft Edge (Fixed) ✅
+- Bug : clicking will speed up the timer (Fixed) ✅
+- Bug : Players stucked at the border after getting attacked or pushed (Fixed) ✅
+- Bug : Players jump out of the border (Fixed) ✅
+- Second Attack and Block ✅

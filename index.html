@@ -18,7 +18,7 @@
         <div id="playerHealth" class="player_hp_bar"></div>
       </div>
       <!--timer-->
-      <div class="timer" id="timer">30</div>
+      <div class="timer" id="timer">60</div>
       <!--enemy health-->
       <div class="health_bar_container enemy_hp_container">
         <div class="hp_bar"></div>
@@ -68,10 +68,7 @@
     <canvas></canvas>
     <!--background music-->
     <audio id="bgm" autoplay loop>
-      <source
-        src="assets/audio/Bring Me The Horizon 1x1 Lyric Video ft Nova Twins.mp3"
-        type="audio/mp3"
-      />
+      <source src="assets/audio/bgm.mp3" type="audio/mp3" />
     </audio>
 
     <!--sound effects-->
@@ -85,6 +82,16 @@
     <audio
       id="end_sound"
       src="assets/audio/game-start.mp3"
+      type="audio/mp3"
+    ></audio>
+    <audio
+      id="attack2_sound"
+      src="./assets/audio/attack2.mp3"
+      type="audio/mp3"
+    ></audio>
+    <audio
+      id="block_sound"
+      src="./assets/audio/block.mp3"
       type="audio/mp3"
     ></audio>
   </div>

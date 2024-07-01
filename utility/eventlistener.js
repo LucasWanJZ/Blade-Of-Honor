@@ -1,51 +1,90 @@
 window.addEventListener("keydown", (event) => {
-  if (!player.death && !enemy.death && !gameEnd && !gameStart) {
+  if (player.health > 0 && enemy.health > 0) {
     switch (event.key) {
+      case "1":
+        location.reload();
+        return;
       // player1 keys
       case "d":
-        keys.d.pressed = true;
-        player.lastkey = "d";
+        if (!player.stunned) {
+          keys.d.pressed = true;
+          player.lastkey = "d";
+        }
         break;
       case "a":
-        keys.a.pressed = true;
-        player.lastkey = "a";
+        if (!player.stunned) {
+          keys.a.pressed = true;
+          player.lastkey = "a";
+        }
         break;
       case "w":
-        keys.w.pressed = true;
-        window.setTimeout(() => {
-          keys.w.pressed = false;
-        }, 500);
-        if (player.jumpcount < 2) {
-          player.jumpcount++;
-        } else {
-          keys.w.pressed = false;
+        if (!player.stunned) {
+          keys.w.pressed = true;
+          window.setTimeout(() => {
+            keys.w.pressed = false;
+          }, 500);
+          if (player.jumpcount < 2) {
+            player.jumpcount++;
+          } else {
+            keys.w.pressed = false;
+          }
         }
         break;
       case "r":
-        player.attack1();
+        if (!player.stunned) {
+          player.attack1();
+        }
+        break;
+      case " ":
+        if (!player.stunned) {
+          player.attack2();
+        }
+        break;
+      case "s":
+        if (!player.stunned) {
+          player.block();
+        }
         break;
       // player 2 keys
       case "ArrowLeft":
-        keys.ArrowLeft.pressed = true;
-        enemy.lastkey = "ArrowLeft";
+        if (!enemy.stunned) {
+          keys.ArrowLeft.pressed = true;
+          enemy.lastkey = "ArrowLeft";
+        }
         break;
       case "ArrowRight":
-        keys.ArrowRight.pressed = true;
-        enemy.lastkey = "ArrowRight";
+        if (!enemy.stunned) {
+          keys.ArrowRight.pressed = true;
+          enemy.lastkey = "ArrowRight";
+        }
         break;
       case "ArrowUp":
-        keys.ArrowUp.pressed = true;
-        window.setTimeout(() => {
-          keys.ArrowUp.pressed = false;
-        }, 500);
-        if (enemy.jumpcount < 2) {
-          enemy.jumpcount++;
-        } else {
-          keys.ArrowUp.pressed = false;
+        if (!enemy.stunned) {
+          keys.ArrowUp.pressed = true;
+          window.setTimeout(() => {
+            keys.ArrowUp.pressed = false;
+          }, 500);
+          if (enemy.jumpcount < 2) {
+            enemy.jumpcount++;
+          } else {
+            keys.ArrowUp.pressed = false;
+          }
         }
         break;
       case "ArrowDown":
-        enemy.attack1();
+        if (!enemy.stunned) {
+          enemy.block();
+        }
+        break;
+      case "Enter":
+        if (!enemy.stunned) {
+          enemy.attack1();
+        }
+        break;
+      case "Shift":
+        if (!enemy.stunned) {
+          enemy.attack2();
+        }
         break;
     }
   }
@@ -75,9 +114,13 @@ window.addEventListener("keyup", (event) => {
 });
 
 window.addEventListener("click", () => {
-  if (Intro) {
+  if (timer == 60) {
     setTimeout(decreaseTimer, 1500);
-    Intro = false;
-    gameStart = true;
+    document.querySelector("#instruction").style.display = "none";
+    document.querySelector("#game_end_ui").style.display = "flex";
+    document.querySelector("#game_end_ui").innerHTML = "GAME START";
+    setTimeout(() => {
+      document.querySelector("#game_end_ui").style.display = "none";
+    }, 1500);
   }
 });

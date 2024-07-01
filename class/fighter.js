@@ -56,6 +56,8 @@ class Fighter extends Sprite {
     this.sprites = sprites;
     this.attackFrame = attackFrame;
     this.attackFrame2 = 4;
+    this.stunnedImage = new Image();
+    this.stunnedImage.src = "./assets/fighters/stunned.png";
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -64,10 +66,14 @@ class Fighter extends Sprite {
   }
 
   draw() {
-    if (this.blocked) {
-      c.font = "15px Arial";
-      c.fillStyle = "white";
-      c.fillText("BLOCKED", this.position.x, this.position.y + 10);
+    if (this.stunned) {
+      c.drawImage(
+        this.stunnedImage,
+        this.position.x - 20,
+        this.position.y - 20,
+        50,
+        50
+      );
     }
 
     c.drawImage(

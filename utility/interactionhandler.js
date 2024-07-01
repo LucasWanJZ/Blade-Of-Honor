@@ -80,6 +80,11 @@ function enemyHit2() {
   }
   gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
   player.attacking2 = false;
+  if (enemy.position.x < canvas.width - 30 - enemy.width) {
+    enemy.position.x += 50;
+  } else {
+    enemy.position.x = canvas.width - enemy.width;
+  }
 }
 
 // attack handler

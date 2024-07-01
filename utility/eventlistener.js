@@ -1,5 +1,5 @@
 window.addEventListener("keydown", (event) => {
-  if (player.health > 0 && enemy.health > 0) {
+  if (player.health > 0 && enemy.health > 0 && timer > 0 && timer < 60) {
     switch (event.key) {
       // player1 keys
       case "d":
@@ -33,12 +33,12 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case " ":
-        if (!player.stunned) {
+        if (!player.stunned && !player.attacking1) {
           player.attack2();
         }
         break;
       case "s":
-        if (!player.stunned) {
+        if (!player.stunned && !player.attacking1 && !player.charging) {
           player.block();
         }
         break;
@@ -69,7 +69,7 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case "ArrowDown":
-        if (!enemy.stunned) {
+        if (!enemy.stunned && !enemy.attacking1 && !enemy.charging) {
           enemy.block();
         }
         break;
@@ -79,7 +79,7 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case "Shift":
-        if (!enemy.stunned) {
+        if (!enemy.stunned && !enemy.attacking1) {
           enemy.attack2();
         }
         break;

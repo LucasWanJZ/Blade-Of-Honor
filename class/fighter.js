@@ -65,7 +65,7 @@ class Fighter extends Sprite {
 
   draw() {
     if (this.blocked) {
-      c.font = "12px Bold Arial";
+      c.font = "15px Arial";
       c.fillStyle = "white";
       c.fillText("BLOCKED", this.position.x, this.position.y + 10);
     }

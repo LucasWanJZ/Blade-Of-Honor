@@ -122,6 +122,7 @@ window.addEventListener("click", () => {
     document.querySelector("#instruction").style.display = "none";
     document.querySelector("#main_bg").style.display = "none";
     document.querySelector("#hint_id").style.display = "none";
+    document.querySelector("#hint_music").style.display = "none";
     document.querySelector("#main_music").pause();
     document.querySelector("#game_end_ui").style.display = "flex";
     document.querySelector("#game_end_ui").innerHTML = "GAME START";

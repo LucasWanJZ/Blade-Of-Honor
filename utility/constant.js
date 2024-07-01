@@ -20,17 +20,6 @@ const middle = canvas.width / 2;
 const center = canvas.height / 2;
 
 // background
-const background0 = new Sprite({
-  position: {
-    x: 0,
-    y: 0,
-  },
-  imageSrc: "./assets/background/Background_0.png",
-  height: canvas.height,
-  width: canvas.width,
-  scale: 1.15,
-});
-
 const background = new Sprite({
   position: {
     x: 0,

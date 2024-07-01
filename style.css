@@ -101,11 +101,6 @@ ul {
   box-sizing: border-box;
 }
 
-@font-face {
-  font-family: "Press Start 2P";
-  src: url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-}
-
 /* main container for the page */
 .main_container {
   position: relative;
@@ -200,6 +195,17 @@ ul {
   font-size: 130%;
 }
 
+.hint {
+  position: absolute;
+  font-family: "Press start 2p", cursive;
+  color: white;
+  width: 50%;
+  top: 83%;
+  left: 25%;
+  font-size: 65%;
+  text-align: center;
+}
+
 .start_text {
   font-size: 100%;
   position: absolute;
@@ -209,42 +215,22 @@ ul {
 
 .intro_container {
   position: absolute;
-  border: 0.2vb solid white;
   color: white;
-  width: 50%;
-  height: 50%;
-  top: 20%;
-  left: 25%;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Press Start 2P", cursive;
 }
 
-.intro_background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  opacity: 0.3;
-  z-index: 1;
-}
-
-.intro_content {
-  width: 100%;
-  height: 100%;
+.control_container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-}
-
-.control_container {
-  display: flex;
-  justify-content: center;
   width: 100%;
+  height: 100%;
 }
 
 .control {
@@ -252,25 +238,35 @@ ul {
   flex-direction: column;
   align-items: center;
   text-align: left;
-  font-size: 75%;
-  padding-left: 10%;
-  padding-bottom: 15%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 5%;
 }
 
-.enemy_pic {
-  width: 40%;
-  height: 50%;
-  border: 1px solid white;
-  border-radius: 50%;
-  margin-top: 40%;
-  margin-bottom: 10%;
+.control p {
+  margin-top: 2%;
+  font-size: 60%;
 }
 
 .player_pic {
-  width: 50%;
+  width: 40%;
   height: 40%;
-  border: 1px solid white;
-  border-radius: 50%;
-  margin-top: 48%;
-  margin-bottom: 10%;
+  margin-right: 50%;
+}
+.enemy_pic {
+  margin-right: 50%;
+  width: 40%;
+  height: 40%;
+}
+
+.main_bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: brightness(0.5);
+}
+
+.hint_music {
+  color: peachpuff;
+  top: 90%;
 }

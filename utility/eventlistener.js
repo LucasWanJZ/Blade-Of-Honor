@@ -84,9 +84,11 @@ window.addEventListener("keydown", (event) => {
         }
         break;
     }
-  } else {
+  } else if (timer == 0 || timer == 60) {
     if (event.key === "1") {
       location.reload();
+    } else if (event.key === " ") {
+      document.querySelector("#main_music").play();
     }
   }
 });
@@ -118,6 +120,9 @@ window.addEventListener("click", () => {
   if (timer == 60) {
     setTimeout(decreaseTimer, 1500);
     document.querySelector("#instruction").style.display = "none";
+    document.querySelector("#main_bg").style.display = "none";
+    document.querySelector("#hint_id").style.display = "none";
+    document.querySelector("#main_music").pause();
     document.querySelector("#game_end_ui").style.display = "flex";
     document.querySelector("#game_end_ui").innerHTML = "GAME START";
     setTimeout(() => {

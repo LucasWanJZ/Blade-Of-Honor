@@ -25,44 +25,59 @@
         <div id="enemyHealth" class="enemy_hp_bar"></div>
       </div>
     </div>
+    <!--main menu background-->
+    <img
+      src="./assets/background/mainmenubg.png"
+      alt="main_menu"
+      class="main_bg"
+      id="main_bg"
+    />
     <!--Instruction UI-->
     <div id="instruction" class="intro_container">
-      <div class="intro_background"></div>
-      <p class="instruction_title">INSTRUCTION</p>
-      <p class="start_text">Click the screen to play!</p>
-      <div class="intro_content">
-        <div class="control_container">
-          <div class="control">
-            <img
-              src="./assets/fighters/Samurai Fighter/player_potrait_1.png"
-              alt="player_potrait"
-              class="player_pic"
-            />
-            <div class="control_text">
-              <h2 class="header">Player 1</h2>
-              <p>W - Jump</p>
-              <p>A - Move Left</p>
-              <p>D - Move Right</p>
-              <p>R - Attack</p>
-            </div>
-          </div>
-          <div class="control">
-            <img
-              src="./assets/fighters/Ninja Fighter/player_potrait_2.png"
-              alt="player_potrait"
-              class="enemy_pic"
-            />
-            <div class="control_text">
-              <h2 class="header">Player 2</h2>
-              <p>Up - Jump</p>
-              <p>Left - Move Left</p>
-              <p>Right - Move Right</p>
-              <p>Down - Attack</p>
-            </div>
-          </div>
+      <p class="instruction_title">BLADE OF HONOUR</p>
+      <p class="start_text">Click to Enter the Duel!</p>
+      <div class="control">
+        <img
+          src="./assets/fighters/Samurai Fighter/player_potrait_1.png"
+          alt="player_potrait"
+          class="player_pic"
+        />
+        <div class="control_text">
+          <h2 class="header">HIROSHI TAKEDA</h2>
+          <h2>広志 武田</h2>
+          <p>W - Jump</p>
+          <p>A - Move Left</p>
+          <p>D - Move Right</p>
+          <p>S - Block</p>
+          <p>R - Slash</p>
+          <p>Space - Charge Slash</p>
+        </div>
+      </div>
+      <div class="control">
+        <img
+          src="./assets/fighters/Ninja Fighter/player_potrait_2.png"
+          alt="player_potrait"
+          class="enemy_pic"
+        />
+        <div class="control_text">
+          <h2 class="header">JIRO HATTORI</h2>
+          <h2>次郎 服部</h2>
+          <p>Arrow Up - Jump</p>
+          <p>Arrow Left - Move Left</p>
+          <p>Arrow Right - Move Right</p>
+          <p>Arrow Down - Block</p>
+          <p>Enter - Slash</p>
+          <p>Shift - Charge Slash</p>
         </div>
       </div>
     </div>
+    <p class="hint" id="hint_id">
+      Master the art of timing: a well-timed block will stagger your opponent,
+      but beware, it cannot withstand the force of a charge attack.
+    </p>
+    <p class="hint hint_music" id="hint_id">
+      Press Space Bar to unmute main menu music
+    </p>
     <!--Game End UI-->
     <div id="game_end_ui" class="game_end_ui">TIE</div>
     <canvas></canvas>
@@ -70,7 +85,9 @@
     <audio id="bgm" autoplay loop>
       <source src="assets/audio/bgm.mp3" type="audio/mp3" />
     </audio>
-
+    <audio id="main_music" autoplay loop>
+      <source src="assets/audio/menu_bgm.mp3" type="audio/mp3" />
+    </audio>
     <!--sound effects-->
     <audio
       id="attack_sound"

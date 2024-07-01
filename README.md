@@ -16,7 +16,7 @@ Check out the game in action: [JavaScript Fighting Game Demo](https://gameprojec
 ## Features
 
 - Two-player fighting game
-- Basic attack mechanics
+- attack, charge attack and block (combat mechanics)
 - Jumping and movement controls
 - Health bars for each player
 - Different animations for different actions
@@ -45,8 +45,6 @@ Check out the game in action: [JavaScript Fighting Game Demo](https://gameprojec
 ## Future Work
 
 - instruction sheet at Game Start ✅
-- Bug : does not work properly on Google Chrome or Microsoft Edge (Fixed) ✅
-- Bug : clicking will speed up the timer (Fixed) ✅
-- Bug : Players stucked at the border after getting attacked or pushed (Fixed) ✅
-- Bug : Players jump out of the border (Fixed) ✅
 - Second Attack and Block ✅
+- Main Menu and Main Menu Music ✅
+- Online Multiplayer 

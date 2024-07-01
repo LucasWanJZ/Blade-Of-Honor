@@ -2,14 +2,15 @@
 function checkHealthBar(timerId) {
   clearTimeout(timerId);
   if (player.health == enemy.health) {
-    document.querySelector("#game_end_ui").innerHTML = "It's a draw!";
+    document.querySelector("#game_end_ui").innerHTML = "It's a Draw!";
   } else if (player.health > enemy.health) {
-    document.querySelector("#game_end_ui").innerHTML = "Player 1 Wins!";
+    document.querySelector("#game_end_ui").innerHTML = "Hiroshi Wins!";
     player.switchSprite("idle");
   } else {
-    document.querySelector("#game_end_ui").innerHTML = "Player 2 Wins!";
+    document.querySelector("#game_end_ui").innerHTML = "Jiro Wins!";
     enemy.switchSprite("idle");
   }
+  document.querySelector("#restart").style.display = "flex";
   document.querySelector("#game_end_ui").style.display = "flex";
 }
 

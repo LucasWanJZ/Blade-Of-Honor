@@ -84,11 +84,13 @@ window.addEventListener("keydown", (event) => {
         }
         break;
     }
-  } else if (timer == 0 || timer == 60) {
+  } else if (timer >= 60) {
+    if (event.key === " ") {
+      menu_music.play();
+    }
+  } else {
     if (event.key === "1") {
       location.reload();
-    } else if (event.key === " ") {
-      document.querySelector("#main_music").play();
     }
   }
 });

@@ -47,4 +47,5 @@ Check out the game in action: [Blade of Honour Demo](https://gameproject-js-html
 - instruction sheet at Game Start ✅
 - Second Attack and Block ✅
 - Main Menu and Main Menu Music ✅
-- Online Multiplayer 
+- add a Cat :3 ✅
+- Online Multiplayer

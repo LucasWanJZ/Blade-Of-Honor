@@ -107,6 +107,25 @@ ul {
   display: inline-block;
 }
 
+/* players name */
+.player_name {
+  position: absolute;
+  color: white;
+  font-family: "Press Start 2P", cursive;
+  font-size: 100%;
+  top: 12%;
+  left: 2%;
+}
+
+.enemy_name {
+  position: absolute;
+  color: white;
+  font-family: "Press Start 2P", cursive;
+  font-size: 100%;
+  top: 12%;
+  right: 2%;
+}
+
 /* container for ui */
 .ui_container {
   position: absolute;
@@ -186,6 +205,11 @@ ul {
   font-family: "Press Start 2P", cursive;
 }
 
+.restart {
+  color: #861c48;
+  top: 10%;
+}
+
 /* instruction ui */
 .instruction_title {
   position: absolute;
@@ -200,7 +224,7 @@ ul {
   font-family: "Press start 2p", cursive;
   color: white;
   width: 50%;
-  top: 83%;
+  top: 80%;
   left: 25%;
   font-size: 65%;
   text-align: center;

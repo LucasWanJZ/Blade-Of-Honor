@@ -53,6 +53,30 @@ const lamp = new Sprite({
   scale: 3,
 });
 
+const cat = new Sprite({
+  position: {
+    x: 850,
+    y: center - 146,
+  },
+  imageSrc: "./assets/background/cat.png",
+  height: 100,
+  width: 50,
+  scale: 3.5,
+  frames: 4,
+});
+
+const cat2 = new Sprite({
+  position: {
+    x: 50,
+    y: center + 113,
+  },
+  imageSrc: "./assets/background/cat2.png",
+  height: 100,
+  width: 50,
+  scale: 2.5,
+  frames: 4,
+});
+
 // players
 const player = new Fighter({
   position: { x: middle - 200, y: center - 100 },

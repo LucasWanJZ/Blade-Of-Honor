@@ -16,14 +16,6 @@ function decreaseTimer() {
 // music
 var menu_music = document.querySelector("#main_music");
 
-function ToggleBGM() {
-  if (menu_music.paused) {
-    menu_music.play();
-  } else {
-    menu_music.pause();
-  }
-}
-
 document.addEventListener("DOMContentLoaded", function () {
   var music = document.getElementById("bgm");
   music.volume = 0.5;
@@ -58,6 +50,8 @@ function animate() {
   background.update();
   shop.update();
   lamp.update();
+  cat.update();
+  cat2.update();
 
   if (timer < 60) {
     player.update();

@@ -15,62 +15,50 @@ function checkHealthBar(timerId) {
 
 // player getting hit
 function playerHit1() {
-  player.stunned = true;
   player.health -= 15;
   if (player.health <= 0) {
     player.health = 0;
     player.switchSprite("death");
   } else {
-    player.switchSprite("hit");
-    setTimeout(() => {
-      player.stunned = false;
-    }, 500);
+    player.staggered();
   }
   gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
   enemy.attacking1 = false;
-  enemy.attacking2 = false;
-  player.attacking2 = false;
   if (player.position.x > 30) player.position.x -= 30;
 }
 
 //enemy getting hit
 function enemyHit1() {
-  enemy.stunned = true;
   enemy.health -= 15;
   if (enemy.health <= 0) {
     enemy.health = 0;
     enemy.switchSprite("death");
   } else {
-    enemy.switchSprite("hit");
-    setTimeout(() => {
-      enemy.stunned = false;
-    }, 500);
+    enemy.staggered();
   }
   gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
   player.attacking1 = false;
-  player.attacking2 = false;
-  enemy.attacking2 = false;
   if (enemy.position.x < canvas.width - 30 - enemy.width)
     enemy.position.x += 30;
 }
 
-function enemyHit2() {
-  enemy.stunned = true;
-  enemy.health -= 30;
-  if (enemy.health <= 0) {
-    enemy.health = 0;
-    enemy.switchSprite("death");
-  } else {
-    enemy.switchSprite("hit");
-    setTimeout(() => {
-      enemy.stunned = false;
-    }, 600);
-  }
-  gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
-  player.attacking2 = false;
-  if (enemy.position.x < canvas.width - 100 - enemy.width)
-    enemy.position.x += 100;
-}
+// function enemyHit2() {
+//   enemy.stunned = true;
+//   enemy.health -= 30;
+//   if (enemy.health <= 0) {
+//     enemy.health = 0;
+//     enemy.switchSprite("death");
+//   } else {
+//     enemy.switchSprite("hit");
+//     setTimeout(() => {
+//       enemy.stunned = false;
+//     }, 600);
+//   }
+//   gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
+//   player.attacking2 = false;
+//   if (enemy.position.x < canvas.width - 100 - enemy.width)
+//     enemy.position.x += 100;
+// }
 
 // attack handler
 function handleAttack(player, enemy) {
@@ -80,19 +68,27 @@ function handleAttack(player, enemy) {
   // player attacks
   if (playerHitsEnemy) {
     if (player.attacking1) {
-      enemyHit1();
-      // player's charge attack
-    } else if (player.attacking2) {
-      enemyHit2();
+      if (enemy.blocking) {
+        player.blocked = true;
+        setTimeout(() => {
+          player.blocked = false;
+        }, 300);
+        player.staggered();
+      } else {
+        enemyHit1();
+      }
     }
-    // enemy attacks player
-    if (enemyHitsPlayer) {
-      if (enemy.attacking1) {
-        if (player.charging) {
-          clearTimeout(player.chargeTimeout);
-          player.charging = false;
-          player.attacking2 = false;
-        }
+  }
+  // enemy attacks player
+  if (enemyHitsPlayer) {
+    if (enemy.attacking1) {
+      if (player.blocking) {
+        enemy.blocked = true;
+        setTimeout(() => {
+          enemy.blocked = false;
+        }, 300);
+        enemy.staggered();
+      } else {
         playerHit1();
       }
     }
@@ -157,7 +153,7 @@ function updateFighterMovement(fighter1, fighter2) {
 
   // fighter2 movement
   fighter2.velocity.x = 0;
-  if (!fighter2.isStaggered && !fighter2.recovering && !fighter2.blocking) {
+  if (!fighter2.stunned && !fighter2.recovering && !fighter2.blocking) {
     if (!spriteCollision({ sprite1: fighter1, sprite2: fighter2 })) {
       if (keys.ArrowLeft.pressed && fighter2.lastkey === "ArrowLeft") {
         fighter2.switchSprite("run");

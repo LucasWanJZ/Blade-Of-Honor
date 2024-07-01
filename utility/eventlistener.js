@@ -1,9 +1,6 @@
 window.addEventListener("keydown", (event) => {
   if (player.health > 0 && enemy.health > 0) {
     switch (event.key) {
-      case "1":
-        location.reload();
-        return;
       // player1 keys
       case "d":
         if (!player.stunned) {
@@ -86,6 +83,10 @@ window.addEventListener("keydown", (event) => {
           enemy.attack2();
         }
         break;
+    }
+  } else {
+    if (event.key === "1") {
+      location.reload();
     }
   }
 });

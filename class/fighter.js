@@ -47,8 +47,8 @@ class Fighter extends Sprite {
     this.attacking2 = false;
     this.stunned = false;
     this.blocking = false;
-    this.charging = false;
-    this.death = false;
+    this.blocked = false;
+    this.dead = false;
 
     // fighter animations
     this.currentFrame = 0;
@@ -64,6 +64,12 @@ class Fighter extends Sprite {
   }
 
   draw() {
+    if (this.blocked) {
+      c.font = "12px Bold Arial";
+      c.fillStyle = "white";
+      c.fillText("BLOCKED", this.position.x, this.position.y + 10);
+    }
+
     c.drawImage(
       this.image,
       (this.image.width / this.frames) * this.currentFrame,
@@ -99,7 +105,7 @@ class Fighter extends Sprite {
 
   animateFrame() {
     if (this.image === this.sprites.death.image) {
-      if (this.currentFrame === this.sprites.death.frames - 1) {
+      if (this.currentFrame === this.sprites.death.frames - 2) {
         this.death = true;
         return;
       }
@@ -118,7 +124,9 @@ class Fighter extends Sprite {
 
   update() {
     this.draw();
-    this.animateFrame();
+    if (!this.dead) {
+      this.animateFrame();
+    }
 
     // movemnt x axis
     const movement = this.velocity.x * this.speed;
@@ -154,12 +162,24 @@ class Fighter extends Sprite {
       return;
     }
 
+    if (sprite === "death") {
+      this.image = this.sprites.death.image;
+      this.frames = this.sprites.death.frames;
+      this.currentFrame = 0;
+    }
+
     // prevent switching sprite while getting hit
     if (
       this.image === this.sprites.hit.image &&
       this.currentFrame < this.sprites.hit.frames - 1
     ) {
       return;
+    }
+
+    if (sprite === "hit") {
+      this.image = this.sprites.hit.image;
+      this.frames = this.sprites.hit.frames;
+      this.currentFrame = 0;
     }
 
     // prevent switching sprite while attacking
@@ -221,18 +241,6 @@ class Fighter extends Sprite {
           this.currentFrame = 0;
         }
         break;
-      case "hit":
-        if (this.image != this.sprites.hit.image) {
-          this.image = this.sprites.hit.image;
-          this.frames = this.sprites.hit.frames;
-          this.currentFrame = 0;
-        }
-        break;
-      case "death":
-        this.image = this.sprites.death.image;
-        this.frames = this.sprites.death.frames;
-        this.currentFrame = 0;
-        break;
       case "attack2":
         if (this.image != this.sprites.attack2.image) {
           this.image = this.sprites.attack2.image;
@@ -260,14 +268,6 @@ class Fighter extends Sprite {
     var attack = document.querySelector("#attack2_sound");
     attack.volume = 0.8;
     attack.play();
-    this.charging = true;
-    this.attacking2 = true;
-    const chargeDuration = 500;
-    const chargeTimeOut = setTimeout(() => {
-      this.charging = false;
-      this.attacking2 = false;
-    });
-    this.chargeTimeOut = chargeTimeOut;
   }
 
   block() {
@@ -280,23 +280,11 @@ class Fighter extends Sprite {
     }, 300);
   }
 
-  staggered2() {
-    this.health -= 30;
-    if (this.charging) {
-      clearTimeout(this.chargeTimeout);
-      this.charging = false;
-      this.attacking2 = false;
-      this.switchSprite("hit");
-    } else {
-      this.stunned = true;
-      if (this.health <= 0) {
-        this.switchSprite("death");
-      } else {
-        this.switchSprite("hit");
-        setTimeout(() => {
-          this.stunned = false;
-        }, 200);
-      }
-    }
+  staggered() {
+    this.stunned = true;
+    this.switchSprite("hit");
+    setTimeout(() => {
+      this.stunned = false;
+    }, 500);
   }
 }

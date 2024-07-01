@@ -6,6 +6,7 @@ const c = canvas.getContext("2d");
 
 // Music
 var menu_music = document.querySelector("#main_music");
+var music = document.getElementById("bgm");
 var end_sound = document.querySelector("#end_sound");
 
 // Key pressed

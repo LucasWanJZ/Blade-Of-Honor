@@ -96,6 +96,7 @@ window.addEventListener("keydown", (event) => {
     }
   } else {
     if (event.key === "1") {
+      music.pause();
       location.reload();
     }
   }

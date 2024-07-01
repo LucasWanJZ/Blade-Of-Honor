@@ -277,7 +277,7 @@ class Fighter extends Sprite {
   attack2() {
     this.switchSprite("attack2");
     var attack = document.querySelector("#attack2_sound");
-    attack.volume = 0.8;
+    attack.volume = 0.25;
 
     // charge attack, if not interrupted, attack after 0.4s
     this.charging = true;

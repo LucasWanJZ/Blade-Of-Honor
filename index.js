@@ -25,7 +25,7 @@ function transitionToGame() {
 
 // music
 document.addEventListener("DOMContentLoaded", function () {
-  music.volume = 0.5;
+  music.volume = 0.1;
   document.body.addEventListener("click", function () {
     if (music.paused) {
       music.play();

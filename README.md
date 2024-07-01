@@ -1,6 +1,6 @@
-# JavaScript Fighting Game
+# Blade Of Honour
 
-Welcome to this simple JavaScript Fighting Game! This project is a browser-based fighting game developed using HTML, CSS, and JavaScript.
+Welcome to Blade of Honour! This project is a browser-based fighting game developed using HTML, CSS, and JavaScript.
 
 ## Table of Contents
 

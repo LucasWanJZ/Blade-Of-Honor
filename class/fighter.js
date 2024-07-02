@@ -49,6 +49,7 @@ class Fighter extends Sprite {
     this.blocking = false;
     this.blocked = false;
     this.dead = false;
+    this.disableAttack2 = false;
 
     // fighter animations
     this.currentFrame = 0;

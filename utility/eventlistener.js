@@ -5,8 +5,10 @@ window.addEventListener("keydown", (event) => {
   let noMovePlayer = !player.stunned && !player.attacking1 && !player.charging;
   let noMoveEnemy = !enemy.stunned && !enemy.attacking1 && !enemy.charging;
 
+  const key = event.key.toLowerCase();
+
   if (GameIsRunning) {
-    switch (event.key) {
+    switch (key) {
       // player1 keys
       case "d":
         if (!player.stunned) {
@@ -33,7 +35,7 @@ window.addEventListener("keydown", (event) => {
           }
         }
         break;
-      case "r":
+      case "f":
         if (!player.stunned && !player.charging) {
           player.attack1();
           player.disableAttack2 = true;
@@ -42,7 +44,7 @@ window.addEventListener("keydown", (event) => {
           }, 400);
         }
         break;
-      case " ":
+      case "g":
         if (!player.stunned && !player.disableAttack2) {
           player.attack2();
         }
@@ -53,19 +55,19 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       // player 2 keys
-      case "ArrowLeft":
+      case "arrowleft":
         if (!enemy.stunned) {
           keys.ArrowLeft.pressed = true;
           enemy.lastkey = "ArrowLeft";
         }
         break;
-      case "ArrowRight":
+      case "arrowright":
         if (!enemy.stunned) {
           keys.ArrowRight.pressed = true;
           enemy.lastkey = "ArrowRight";
         }
         break;
-      case "ArrowUp":
+      case "arrowup":
         if (!enemy.stunned) {
           keys.ArrowUp.pressed = true;
           window.setTimeout(() => {
@@ -78,12 +80,12 @@ window.addEventListener("keydown", (event) => {
           }
         }
         break;
-      case "ArrowDown":
+      case "arrowdown":
         if (noMoveEnemy) {
           enemy.block();
         }
         break;
-      case "Enter":
+      case "k":
         if (!enemy.stunned && !enemy.charging) {
           enemy.attack1();
           enemy.disableAttack2 = true;
@@ -92,8 +94,7 @@ window.addEventListener("keydown", (event) => {
           }, 400);
         }
         break;
-      case "Shift":
-        console.log(enemy.disableAttack2);
+      case "l":
         if (!enemy.stunned && !enemy.disableAttack2) {
           enemy.attack2();
         }
@@ -112,7 +113,9 @@ window.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("keyup", (event) => {
-  switch (event.key) {
+  const key = event.key.toLowerCase();
+
+  switch (key) {
     case "d":
       keys.d.pressed = false;
       break;
@@ -122,13 +125,13 @@ window.addEventListener("keyup", (event) => {
     case "w":
       keys.w.pressed = false;
       break;
-    case "ArrowLeft":
+    case "arrowleft":
       keys.ArrowLeft.pressed = false;
       break;
-    case "ArrowRight":
+    case "arrowright":
       keys.ArrowRight.pressed = false;
       break;
-    case "ArrowUp":
+    case "arrowup":
       keys.ArrowUp.pressed = false;
       break;
   }

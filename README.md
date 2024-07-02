@@ -16,7 +16,7 @@ Check out the game in action: [Blade of Honour Demo](https://blade-of-honour.net
 ## Features
 
 - Two-player fighting game
-- combat mechanic : Charge Attack, Attack, Block
+- combat mechanic : Parry, Slash, Charged Slash
 - Jumping and movement controls
 - Health bars for each player
 - Different animations for different actions
@@ -29,18 +29,18 @@ Check out the game in action: [Blade of Honour Demo](https://blade-of-honour.net
 - Move Left: `A`
 - Move Right: `D`
 - Jump: `W`
-- Block: `S`
-- Light Attack: `R`
-- Strong Attack: `Space Bar`
+- Parry: `S`
+- Slash: `F`
+- Charged Slash: `G`
 
 ### Player 2
 
 - Move Left: `ArrowLeft`
 - Move Right: `ArrowRight`
 - Jump: `ArrowUp`
-- Block: `ArrowDown`
-- Light Attack: `Enter`
-- Strong Attack: `Shift`
+- Parry: `ArrowDown`
+- Slash: `K`
+- Charged Slash: `L`
 
 ## Future Work
 

@@ -34,12 +34,16 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case "r":
-        if (!player.stunned) {
+        if (!player.stunned && !player.charging) {
           player.attack1();
+          player.disableAttack2 = true;
+          setTimeout(() => {
+            player.disableAttack2 = false;
+          }, 400);
         }
         break;
       case " ":
-        if (!player.stunned && !player.attacking1) {
+        if (!player.stunned && !player.disableAttack2) {
           player.attack2();
         }
         break;
@@ -80,12 +84,17 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case "Enter":
-        if (!enemy.stunned) {
+        if (!enemy.stunned && !enemy.charging) {
           enemy.attack1();
+          enemy.disableAttack2 = true;
+          setTimeout(() => {
+            enemy.disableAttack2 = false;
+          }, 400);
         }
         break;
       case "Shift":
-        if (!enemy.stunned && !enemy.attacking1) {
+        console.log(enemy.disableAttack2);
+        if (!enemy.stunned && !enemy.disableAttack2) {
           enemy.attack2();
         }
         break;

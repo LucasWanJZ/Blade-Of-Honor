@@ -26,8 +26,6 @@ function handlePlayerHit(damage, moveBack) {
     player.staggered();
   }
   gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
-  enemy.attacking1 = false;
-  enemy.attacking2 = false;
   player.position.x = Math.max(player.position.x - moveBack, 0);
 }
 
@@ -41,8 +39,6 @@ function handleEnemyHit(damage, moveBack) {
     enemy.staggered();
   }
   gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
-  player.attacking1 = false;
-  player.attacking2 = false;
   enemy.position.x = Math.min(
     enemy.position.x + moveBack,
     canvas.width - enemy.width
@@ -80,8 +76,10 @@ function handleAttack(player, enemy) {
       } else {
         enemyHit1();
       }
+      player.attacking1 = false;
     } else {
       enemyHit2();
+      player.attacking2 = false;
     }
   }
   // enemy attacks player
@@ -95,9 +93,11 @@ function handleAttack(player, enemy) {
         enemy.staggered();
       } else {
         playerHit1();
+        enemy.attacking1 = false;
       }
     } else {
       playerHit2();
+      enemy.attacking2 = false;
     }
   }
 }

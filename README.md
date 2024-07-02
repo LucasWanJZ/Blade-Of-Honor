@@ -11,7 +11,7 @@ Welcome to Blade of Honour! This project is a browser-based fighting game develo
 
 ## Demo
 
-Check out the game in action: [Blade of Honour Demo](https://gameproject-js-html-css.netlify.app/)
+Check out the game in action: [Blade of Honour Demo](https://blade-of-honour.netlify.app/)
 
 ## Features
 

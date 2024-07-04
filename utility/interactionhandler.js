@@ -16,47 +16,23 @@ function checkHealthBar(timerId) {
   gameEndUI.style.display = "flex";
 }
 
-// player getting hit
-function handlePlayerHit(damage, moveBack) {
-  player.health -= damage;
-  if (player.health <= 0) {
-    player.health = 0;
-    player.switchSprite("death");
+// attack condition
+function attackCondition(fighter1, fighter2) {
+  if (fighter1.attacking1) {
+    if (fighter2.blocking) {
+      fighter1.blocked = true;
+      setTimeout(() => {
+        fighter1.blocked = false;
+      }, 300);
+      fighter1.staggered();
+    } else {
+      fighter2.hit(15, 50);
+    }
+    fighter1.attacking1 = false;
   } else {
-    player.staggered();
+    fighter2.hit(30, 70);
+    fighter1.attacking2 = false;
   }
-  gsap.to("#playerHealth", { width: player.health + "%", duration: 0.25 });
-  player.position.x = Math.max(player.position.x - moveBack, 0);
-}
-
-// enemy getting hit
-function handleEnemyHit(damage, moveBack) {
-  enemy.health -= damage;
-  if (enemy.health <= 0) {
-    enemy.health = 0;
-    enemy.switchSprite("death");
-  } else {
-    enemy.staggered();
-  }
-  gsap.to("#enemyHealth", { width: enemy.health + "%", duration: 0.25 });
-  enemy.position.x = Math.min(
-    enemy.position.x + moveBack,
-    canvas.width - enemy.width
-  );
-}
-
-// players attack
-function playerHit1() {
-  handlePlayerHit(15, 50);
-}
-function playerHit2() {
-  handlePlayerHit(30, 50);
-}
-function enemyHit1() {
-  handleEnemyHit(15, 50);
-}
-function enemyHit2() {
-  handleEnemyHit(30, 50);
 }
 
 // attack handler
@@ -66,39 +42,11 @@ function handleAttack(player, enemy) {
 
   // player attacks
   if (playerHitsEnemy) {
-    if (player.attacking1) {
-      if (enemy.blocking) {
-        player.blocked = true;
-        setTimeout(() => {
-          player.blocked = false;
-        }, 300);
-        player.staggered();
-      } else {
-        enemyHit1();
-      }
-      player.attacking1 = false;
-    } else {
-      enemyHit2();
-      player.attacking2 = false;
-    }
+    attackCondition(player, enemy);
   }
   // enemy attacks player
   if (enemyHitsPlayer) {
-    if (enemy.attacking1) {
-      if (player.blocking) {
-        enemy.blocked = true;
-        setTimeout(() => {
-          enemy.blocked = false;
-        }, 300);
-        enemy.staggered();
-      } else {
-        playerHit1();
-        enemy.attacking1 = false;
-      }
-    } else {
-      playerHit2();
-      enemy.attacking2 = false;
-    }
+    attackCondition(enemy, player);
   }
 }
 

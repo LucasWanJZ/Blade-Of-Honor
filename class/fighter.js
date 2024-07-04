@@ -306,6 +306,27 @@ class Fighter extends Sprite {
     }, 300);
   }
 
+  hit(damage, moveBack) {
+    this.health -= damage;
+    if (this.health <= 0) {
+      this.health = 0;
+      this.switchSprite("death");
+    } else {
+      this.staggered();
+    }
+
+    if (this.attackBox.offset.x > 0) {
+      gsap.to("#playerHealth", { width: this.health + "%", duration: 0.25 });
+      this.position.x = Math.max(this.position.x - moveBack, 0);
+    } else {
+      gsap.to("#enemyHealth", { width: this.health + "%", duration: 0.25 });
+      this.position.x = Math.min(
+        this.position.x + moveBack,
+        canvas.width - this.width
+      );
+    }
+  }
+
   staggered() {
     this.stunned = true;
     this.switchSprite("hit");

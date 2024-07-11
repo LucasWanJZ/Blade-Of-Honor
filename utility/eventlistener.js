@@ -94,7 +94,7 @@ window.addEventListener("keydown", (event) => {
         break;
     }
     // play main menu music
-  } else if (timer >= 60) {
+  } else if (timer >= 60 && player.wins == 0 && enemy.wins == 0) {
     if (event.key === " ") {
       menu_music.play();
     }

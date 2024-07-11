@@ -8,8 +8,8 @@ function checkHealthBar(timerId) {
   const playerWon = player.health > enemy.health;
   const winner = playerWon ? player : enemy;
 
-  handleGameEndMessage(gameEndUI, isDraw, playerWon);
   updatePlayerWins(playerWon);
+  handleGameEndMessage(gameEndUI, isDraw, playerWon);
   gameEndUI.style.display = "flex";
   winner.switchSprite("idle");
   end_sound.play();

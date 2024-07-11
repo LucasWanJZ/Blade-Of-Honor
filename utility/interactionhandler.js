@@ -1,41 +1,76 @@
-// game end handler
+// Game End Handler
 function checkHealthBar(timerId) {
   gameEnd = false;
   clearTimeout(timerId);
+
   const gameEndUI = document.querySelector("#game_end_ui");
-  if (player.health == enemy.health) {
-    gameEndUI.innerHTML = "It's a Draw!";
-  } else if (player.health > enemy.health) {
-    player.wins++;
-    if (player.wins == 1) {
-      document.querySelector("#pm1").style.display = "block";
-      gameEndUI.innerHTML = "Prepare for the next duel!";
-    } else {
-      document.querySelector("#pm2").style.display = "block";
-      gameEndUI.innerHTML = "Hiroshi Wins!";
-    }
-    player.switchSprite("idle");
-  } else {
-    enemy.wins++;
-    if (enemy.wins == 1) {
-      document.querySelector("#em1").style.display = "block";
-      gameEndUI.innerHTML = "Prepare for the next duel!";
-    } else {
-      document.querySelector("#em2").style.display = "block";
-      gameEndUI.innerHTML = "Jiro Wins!";
-    }
-    enemy.switchSprite("idle");
-  }
-  end_sound.play();
+  const isDraw = player.health === enemy.health;
+  const playerWon = player.health > enemy.health;
+  const winner = playerWon ? player : enemy;
+
+  handleGameEndMessage(gameEndUI, isDraw, playerWon);
+  updatePlayerWins(playerWon);
   gameEndUI.style.display = "flex";
+  winner.switchSprite("idle");
+  end_sound.play();
 
   if (player.wins < 2 && enemy.wins < 2) {
-    setTimeout(() => {
-      gameEndUI.style.display = "none";
-      document.querySelector("#restart").style.display = "none";
-      restartGame();
-    }, 2000);
+    prepareForNextDuel(gameEndUI);
+  } else {
+    music.pause();
+    document.querySelector("#end_music").play();
   }
+}
+
+// Game End UI Handler
+function handleGameEndMessage(gameEndUI, isDraw, playerWon) {
+  if (isDraw) {
+    gameEndUI.innerHTML = "It's a Draw!";
+  } else if (playerWon) {
+    handlePlayerWinMessage(gameEndUI);
+  } else {
+    handleEnemyWinMessage(gameEndUI);
+  }
+}
+
+// Player Win Message
+function handlePlayerWinMessage(gameEndUI) {
+  if (player.wins === 1) {
+    document.querySelector("#pm1").style.display = "block";
+    gameEndUI.innerHTML = "Prepare for the next duel!";
+  } else {
+    document.querySelector("#pm2").style.display = "block";
+    gameEndUI.innerHTML = "Hiroshi Wins!";
+  }
+}
+
+// Enemy Win Message
+function handleEnemyWinMessage(gameEndUI) {
+  if (enemy.wins === 1) {
+    document.querySelector("#em1").style.display = "block";
+    gameEndUI.innerHTML = "Prepare for the next duel!";
+  } else {
+    document.querySelector("#em2").style.display = "block";
+    gameEndUI.innerHTML = "Jiro Wins!";
+  }
+}
+
+// Update Winner
+function updatePlayerWins(playerWon) {
+  if (playerWon) {
+    player.wins++;
+  } else {
+    enemy.wins++;
+  }
+}
+
+// next Match
+function prepareForNextDuel(gameEndUI) {
+  setTimeout(() => {
+    gameEndUI.style.display = "none";
+    document.querySelector("#restart").style.display = "none";
+    restartGame();
+  }, 2000);
 }
 
 // attack condition

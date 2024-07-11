@@ -5,6 +5,7 @@ window.addEventListener("keydown", (event) => {
   let noMovePlayer = !player.stunned && !player.attacking1 && !player.charging;
   let noMoveEnemy = !enemy.stunned && !enemy.attacking1 && !enemy.charging;
 
+  // all inputs are converted to lowercase
   const key = event.key.toLowerCase();
 
   if (GameIsRunning) {
@@ -36,12 +37,8 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case "f":
-        if (!player.stunned && !player.charging) {
+        if (!player.stunned && !player.charging && !player.disableAttack1) {
           player.attack1();
-          player.disableAttack2 = true;
-          setTimeout(() => {
-            player.disableAttack2 = false;
-          }, 400);
         }
         break;
       case "g":
@@ -50,7 +47,7 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case "s":
-        if (noMovePlayer) {
+        if (noMovePlayer && !player.disableBlock) {
           player.block();
         }
         break;
@@ -81,17 +78,13 @@ window.addEventListener("keydown", (event) => {
         }
         break;
       case "arrowdown":
-        if (noMoveEnemy) {
+        if (noMoveEnemy && !enemy.disableBlock) {
           enemy.block();
         }
         break;
       case "k":
-        if (!enemy.stunned && !enemy.charging) {
+        if (!enemy.stunned && !enemy.charging && !enemy.disableAttack1) {
           enemy.attack1();
-          enemy.disableAttack2 = true;
-          setTimeout(() => {
-            enemy.disableAttack2 = false;
-          }, 400);
         }
         break;
       case "l":
@@ -100,13 +93,14 @@ window.addEventListener("keydown", (event) => {
         }
         break;
     }
+    // play main menu music
   } else if (timer >= 60) {
     if (event.key === " ") {
       menu_music.play();
     }
-  } else {
+    // restart game
+  } else if (player.wins >= 2 || enemy.wins >= 2) {
     if (event.key === "1") {
-      music.pause();
       location.reload();
     }
   }

@@ -1,5 +1,3 @@
-let gameEnd = false;
-
 // timer
 function decreaseTimer() {
   if (timer > 0) {
@@ -40,6 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //update game
+let gameEnd = false;
+let matchCount = 1;
+
 function updateGame() {
   // player movement
   updateFighterMovement(player, enemy);
@@ -55,10 +56,13 @@ function updateGame() {
 
 // restart game
 function restartGame() {
+  matchCount++;
   document.querySelector("#main_bg").style.display = "flex";
+  document.querySelector("#game_end_ui").innerHTML = "Match " + matchCount;
+  document.querySelector("#game_end_ui").style.display = "flex";
   setTimeout(() => {
     document.querySelector("#main_bg").style.display = "none";
-    startGame();
+    document.querySelector("#game_end_ui").innerHTML = "IT'S TIME TO DUEL!";
   }, 1000);
 
   // fighters reset

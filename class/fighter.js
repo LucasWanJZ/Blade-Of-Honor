@@ -1,9 +1,3 @@
-middle = 1024 / 2;
-center = 576 / 2;
-
-const originalPosition1 = { x: middle - 200, y: center - 100 };
-const originalPosition2 = { x: middle + 200, y: center - 100 };
-
 class Fighter extends Sprite {
   constructor({
     position,
@@ -56,7 +50,11 @@ class Fighter extends Sprite {
     this.blocking = false;
     this.blocked = false;
     this.dead = false;
+
+    // fighter flags
+    this.disableAttack1 = false;
     this.disableAttack2 = false;
+    this.disableBlock = false;
 
     // fighter animations
     this.currentFrame = 0;
@@ -86,19 +84,9 @@ class Fighter extends Sprite {
     }
 
     // sprite animation
-    c.drawImage(
-      this.image,
-      (this.image.width / this.frames) * this.currentFrame,
-      0,
-      this.image.width / this.frames,
-      this.image.height,
-      this.position.x - this.offset.x,
-      this.position.y - this.offset.y,
-      (this.image.width / this.frames) * this.scale,
-      this.image.height * this.scale
-    );
+    super.draw();
 
-    // block box
+    // block barrier
     if (this.blocking) {
       c.beginPath();
       c.arc(
@@ -123,6 +111,7 @@ class Fighter extends Sprite {
   }
 
   animateFrame() {
+    // if dead, death animation will not be overwritten
     if (this.image === this.sprites.death.image) {
       if (this.currentFrame === this.sprites.death.frames - 2) {
         this.dead = true;
@@ -130,24 +119,18 @@ class Fighter extends Sprite {
       }
     }
 
-    this.elapsedFrame++;
-
-    if (this.elapsedFrame % this.framesHold === 0) {
-      if (this.currentFrame < this.frames - 1) {
-        this.currentFrame++;
-      } else {
-        this.currentFrame = 0;
-      }
-    }
+    super.animateFrame();
   }
 
   reset() {
+    // state reset
     this.health = 100;
     this.velocity = { x: 0, y: 0 };
     this.jumpcount = 0;
     this.switchSprite("idle");
     this.dead = false;
 
+    // position reset
     if (this.attackBox.offset.x > 0) {
       gsap.to("#playerHealth", { width: this.health + "%", duration: 0.25 });
       this.position.x = originalPosition1.x;
@@ -159,10 +142,10 @@ class Fighter extends Sprite {
     }
   }
 
+  // get game start locations
   static get originalPosition1() {
     return originalPosition1;
   }
-
   static get originalPosition2() {
     return originalPosition2;
   }
@@ -298,6 +281,16 @@ class Fighter extends Sprite {
     }
   }
 
+  // Recovery time after attacking
+  attackRecovery() {
+    this.disableAttack1 = true;
+    this.disableAttack2 = true;
+    setTimeout(() => {
+      this.disableAttack1 = false;
+      this.disableAttack2 = false;
+    }, 700);
+  }
+
   attack1() {
     this.switchSprite("attack1");
     var attack = document.querySelector("#attack_sound");
@@ -307,6 +300,9 @@ class Fighter extends Sprite {
     setTimeout(() => {
       this.attacking1 = false;
     }, 300);
+
+    // attack recovery
+    this.attackRecovery();
   }
 
   attack2() {
@@ -327,6 +323,9 @@ class Fighter extends Sprite {
       this.attacking2 = false;
     }, 800);
 
+    // attack recovery
+    this.attackRecovery();
+
     this.chargedTimeOut = chargingTime;
   }
 
@@ -338,6 +337,12 @@ class Fighter extends Sprite {
     setTimeout(() => {
       this.blocking = false;
     }, 300);
+
+    // block recovery
+    this.disableBlock = true;
+    setTimeout(() => {
+      this.disableBlock = false;
+    }, 800);
   }
 
   hit(damage, moveBack) {

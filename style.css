@@ -104,20 +104,6 @@ ul {
   display: inline-block;
 }
 
-/* Player and enemy names */
-.player_name,
-.enemy_name {
-  position: absolute;
-  color: white;
-  font-family: "Press Start 2P", cursive;
-  font-size: 100%;
-  top: 12%;
-}
-
-.enemy_name {
-  right: 2%;
-}
-
 /* UI container */
 .ui_container {
   position: absolute;
@@ -143,6 +129,20 @@ ul {
 .enemy_info_container {
   right: 1.7%;
   display: inline;
+}
+
+/* Player and enemy names */
+.player_name,
+.enemy_name {
+  position: absolute;
+  color: white;
+  font-family: "Press Start 2P", cursive;
+  font-size: 100%;
+  top: 12%;
+}
+
+.enemy_name {
+  right: 2%;
 }
 
 /* Medals */

@@ -23,6 +23,8 @@ const keys = {
 const gravity = 1;
 const middle = canvas.width / 2;
 const center = canvas.height / 2;
+const originalPosition1 = { x: middle - 200, y: center - 100 };
+const originalPosition2 = { x: middle + 200, y: center - 100 };
 
 // timer settings
 let timer = 60;

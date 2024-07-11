@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.body.addEventListener("click", function () {
     if (music.paused) {
       music.play();
+      music.loop = true;
     }
   });
 });

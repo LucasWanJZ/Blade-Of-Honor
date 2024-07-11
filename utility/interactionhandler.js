@@ -19,6 +19,7 @@ function checkHealthBar(timerId) {
   } else {
     music.pause();
     document.querySelector("#end_music").play();
+    document.querySelector("#end_music").loop = true;
   }
 }
 

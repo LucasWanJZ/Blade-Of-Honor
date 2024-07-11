@@ -1,19 +1,41 @@
 // game end handler
 function checkHealthBar(timerId) {
+  gameEnd = false;
   clearTimeout(timerId);
   const gameEndUI = document.querySelector("#game_end_ui");
   if (player.health == enemy.health) {
     gameEndUI.innerHTML = "It's a Draw!";
   } else if (player.health > enemy.health) {
-    gameEndUI.innerHTML = "Hiroshi Wins!";
+    player.wins++;
+    if (player.wins == 1) {
+      document.querySelector("#pm1").style.display = "block";
+      gameEndUI.innerHTML = "Prepare for the next duel!";
+    } else {
+      document.querySelector("#pm2").style.display = "block";
+      gameEndUI.innerHTML = "Hiroshi Wins!";
+    }
     player.switchSprite("idle");
   } else {
-    gameEndUI.innerHTML = "Jiro Wins!";
+    enemy.wins++;
+    if (enemy.wins == 1) {
+      document.querySelector("#em1").style.display = "block";
+      gameEndUI.innerHTML = "Prepare for the next duel!";
+    } else {
+      document.querySelector("#em2").style.display = "block";
+      gameEndUI.innerHTML = "Jiro Wins!";
+    }
     enemy.switchSprite("idle");
   }
   end_sound.play();
-  document.querySelector("#restart").style.display = "flex";
   gameEndUI.style.display = "flex";
+
+  if (player.wins < 2 && enemy.wins < 2) {
+    setTimeout(() => {
+      gameEndUI.style.display = "none";
+      document.querySelector("#restart").style.display = "none";
+      restartGame();
+    }, 2000);
+  }
 }
 
 // attack condition

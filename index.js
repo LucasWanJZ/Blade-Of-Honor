@@ -1,3 +1,5 @@
+let gameEnd = false;
+
 // timer
 function decreaseTimer() {
   if (timer > 0) {
@@ -10,6 +12,11 @@ function decreaseTimer() {
 }
 
 // transition to game
+function startGame() {
+  document.querySelector("#game_end_ui").innerHTML = "IT'S TIME TO DUEL!";
+  document.querySelector("#game_end_ui").style.display = "flex";
+}
+
 function transitionToGame() {
   // close main menu
   document.querySelector("#main_music").pause();
@@ -19,8 +26,7 @@ function transitionToGame() {
   document.querySelector("#hint_music").style.display = "none";
 
   // start game
-  document.querySelector("#game_end_ui").innerHTML = "GAME START";
-  document.querySelector("#game_end_ui").style.display = "flex";
+  startGame();
 }
 
 // music
@@ -42,11 +48,30 @@ function updateGame() {
   handleAttack(player, enemy);
 
   // check health bar
-  if (player.health <= 0 || enemy.health <= 0) {
+  if ((player.health <= 0 || enemy.health <= 0) && gameEnd) {
     checkHealthBar(timerId);
-
-    // end sound
   }
+}
+
+// restart game
+function restartGame() {
+  document.querySelector("#main_bg").style.display = "flex";
+  setTimeout(() => {
+    document.querySelector("#main_bg").style.display = "none";
+    startGame();
+  }, 1000);
+
+  // fighters reset
+  player.reset();
+  enemy.reset();
+
+  // timer reset
+  timer = 60;
+  document.querySelector("#timer").innerText = timer;
+  setTimeout(() => {
+    decreaseTimer();
+    document.querySelector("#game_end_ui").style.display = "none";
+  }, 3000);
 }
 
 // loop
@@ -63,8 +88,12 @@ function animate() {
     enemy.update();
   }
 
-  if (!player.death && !enemy.death) {
+  if (!player.dead && !enemy.dead) {
     updateGame();
+  }
+
+  if (player.wins > 1 || enemy.wins > 1) {
+    document.querySelector("#restart").style.display = "flex";
   }
 
   window.requestAnimationFrame(animate);

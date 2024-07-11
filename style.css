@@ -114,10 +114,6 @@ ul {
   top: 12%;
 }
 
-.player_name {
-  left: 2%;
-}
-
 .enemy_name {
   right: 2%;
 }
@@ -128,7 +124,56 @@ ul {
   display: flex;
   align-items: center;
   width: 100%;
+  height: 10%;
   padding: 20px;
+}
+
+.info_container {
+  position: absolute;
+  width: 30%;
+  height: 5%;
+  margin-top: 5%;
+  display: flex;
+}
+
+.player_info_container {
+  left: 1.7%;
+}
+
+.enemy_info_container {
+  right: 1.7%;
+  display: inline;
+}
+
+/* Medals */
+.medal {
+  width: 8%;
+  height: 80%;
+  display: none;
+}
+
+.pm1 {
+  margin-left: 40%;
+}
+
+.pm2 {
+  margin-left: 3%;
+}
+
+.medal2 {
+  position: absolute;
+  width: 2.5%;
+  height: 4%;
+  top: 9%;
+  display: none;
+}
+
+.em1 {
+  left: 88%;
+}
+
+.em2 {
+  left: 84.7%;
 }
 
 /* Health bars */

@@ -1,3 +1,9 @@
+middle = 1024 / 2;
+center = 576 / 2;
+
+const originalPosition1 = { x: middle - 200, y: center - 100 };
+const originalPosition2 = { x: middle + 200, y: center - 100 };
+
 class Fighter extends Sprite {
   constructor({
     position,
@@ -29,6 +35,7 @@ class Fighter extends Sprite {
     this.width = 50;
     this.speed = 10;
     this.jumpcount = 0;
+    this.wins = 0;
 
     // attack/block box properties
     this.attackBox = {
@@ -58,7 +65,7 @@ class Fighter extends Sprite {
     this.attackFrame = attackFrame;
     this.attackFrame2 = 4;
     this.stunnedImage = new Image();
-    this.stunnedImage.src = "./assets/fighters/stunned.png";
+    this.stunnedImage.src = "./assets/ui/stunned.png";
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -118,7 +125,7 @@ class Fighter extends Sprite {
   animateFrame() {
     if (this.image === this.sprites.death.image) {
       if (this.currentFrame === this.sprites.death.frames - 2) {
-        this.death = true;
+        this.dead = true;
         return;
       }
     }
@@ -132,6 +139,32 @@ class Fighter extends Sprite {
         this.currentFrame = 0;
       }
     }
+  }
+
+  reset() {
+    this.health = 100;
+    this.velocity = { x: 0, y: 0 };
+    this.jumpcount = 0;
+    this.switchSprite("idle");
+    this.dead = false;
+
+    if (this.attackBox.offset.x > 0) {
+      gsap.to("#playerHealth", { width: this.health + "%", duration: 0.25 });
+      this.position.x = originalPosition1.x;
+      this.position.y = originalPosition1.y;
+    } else {
+      gsap.to("#enemyHealth", { width: this.health + "%", duration: 0.25 });
+      this.position.x = originalPosition2.x;
+      this.position.y = originalPosition2.y;
+    }
+  }
+
+  static get originalPosition1() {
+    return originalPosition1;
+  }
+
+  static get originalPosition2() {
+    return originalPosition2;
   }
 
   update() {
@@ -169,7 +202,8 @@ class Fighter extends Sprite {
     // prevent switching sprite while dead
     if (
       this.image === this.sprites.death.image &&
-      this.currentFrame < this.sprites.death.frames - 1
+      this.currentFrame < this.sprites.death.frames - 1 &&
+      this.health <= 0
     ) {
       return;
     }
@@ -311,6 +345,7 @@ class Fighter extends Sprite {
     if (this.health <= 0) {
       this.health = 0;
       this.switchSprite("death");
+      gameEnd = true;
     } else {
       this.staggered();
     }

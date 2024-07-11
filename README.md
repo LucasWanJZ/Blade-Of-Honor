@@ -48,4 +48,6 @@ Check out the game in action: [Blade of Honour Demo](https://blade-of-honour.net
 - Second Attack and Block ✅
 - Main Menu and Main Menu Music ✅
 - add two Cats :3 ✅
+- Game Ends when one player has 2 wins ✅
+- Win-tracking UI ✅
 - Online Multiplayer
